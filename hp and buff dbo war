@@ -9,7 +9,7 @@ macro(800, function()
   local rainbowDelay = 0 -- Inicializa el retraso del arco iris
 
   -- Itera sobre una lista de colores
-  for k, color in ipairs({"#00bfff", "#0099cc", "#0077b3", "#005c99", "#004080", "#002966"}) do
+  for k, color in ipairs({"#00bfff", #7a0000", "#7a6600", "#007a21", "#006a7a", "#64007a"}) do
     -- Programa una función que cambia el color de la etiqueta después de un retraso
     schedule(rainbowDelay, function()
       name:setColor(color) -- Establece el color de la etiqueta
@@ -61,7 +61,7 @@ macro(800, function()
   local rainbowDelay = 0 -- Inicializa el retraso del arco iris
 
   -- Itera sobre una lista de colores
-  for k, color in ipairs({"#00bfff", "#0099cc", "#0077b3", "#005c99", "#004080", "#002966"}) do
+  for k, color in ipairs({"#00bfff", #7a0000", "#7a6600", "#007a21", "#006a7a", "#64007a"}) do
     -- Programa una función que cambia el color de la etiqueta después de un retraso
     schedule(rainbowDelay, function()
       name:setColor(color) -- Establece el color de la etiqueta
@@ -110,7 +110,7 @@ macro(800, function()
   local rainbowDelay = 0 -- Inicializa el retraso del arco iris
 
   -- Itera sobre una lista de colores
-  for k, color in ipairs({"#00bfff", "#0099cc", "#0077b3", "#005c99", "#004080", "#002966"}) do
+  for k, color in ipairs({"#00bfff", #7a0000", "#7a6600", "#007a21", "#006a7a", "#64007a"}) do
     -- Programa una función que cambia el color de la etiqueta después de un retraso
     schedule(rainbowDelay, function()
       name:setColor(color) -- Establece el color de la etiqueta
