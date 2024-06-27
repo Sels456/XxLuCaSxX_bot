@@ -72,11 +72,6 @@ macro(800, function()
     rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
   end
 end, SpellsTab)
-macro(100, "Regeneration", function()
-  if hppercent() <= 99 then
-   say('Regeneration')
-  end
-end)
 
 macro(1, 'EXODIA PORTION [RARE]s', function()
   if hppercent() <= 90 or manapercent() <= 90 then
