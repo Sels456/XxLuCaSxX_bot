@@ -1,0 +1,672 @@
+
+setDefaultTab("main")
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("XxLuCaSxX")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[COMBOS]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+cpvp = macro(200, "Combo",  function()
+if g_game.isAttacking() then
+say(storage.ComboText)
+say(storage.Combo1Text)
+say(storage.Combo2Text)
+say(storage.Combo3Text)
+say(storage.Combo4Text)
+say(storage.Combo5Text)
+end
+
+end)
+addTextEdit("ComboText", storage.ComboText or "1", function(widget, text) 
+storage.ComboText = text
+end)
+addTextEdit("Combo1Text", storage.Combo1Text or "2", function(widget, text) storage.Combo1Text = text
+end)
+addTextEdit("Combo2Text", storage.Combo2Text or "3", function(widget, text) storage.Combo2Text = text
+end)
+addTextEdit("Combo3Text", storage.Combo3Text or "4", function(widget, text) storage.Combo3Text = text
+end)
+addTextEdit("Combo4Text", storage.Combo4Text or "5", function(widget, text) storage.Combo4Text = text
+end)
+addTextEdit("Combo5Text", storage.Combo5Text or "6", function(widget, text) storage.Combo5Text = text
+end)
+test1 = addIcon("2", {item =13351, text = "Combo", hotkey = ""}, cpvp)
+test1:breakAnchors()
+test1:move(200, 75)
+
+local combo
+macro(100, "Hibrido", function()
+if g_game.isAttacking() then
+say('')
+say('Hibrido super lash')
+say('Hibrido devastacion')
+end
+end)
+
+local combo
+macro(100, "Fire", function()
+if g_game.isAttacking() then
+say('')
+say('fire devion')
+say('fire devastacion')
+end
+end)
+
+local combo
+macro(100, "Magnus", function()
+if g_game.isAttacking() then
+say('')
+say('Magnus penetracion')
+say('magnus destruction')
+end
+end)
+
+
+
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[PvP]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+UI.Button("Friends", function(newText)
+    UI.MultilineEditorWindow(storage.FriendText or "", {title="Amigos", description="Coloque o nome dos amigos"}, function(text)
+        storage.FriendText = text
+        reload()
+    end)
+end)
+
+isAmigo = function(name)
+    if type(name) ~= 'string' then
+        name = name:getName()
+    end
+    local tabela = storage.FriendText:split('\n')
+    tabela = #tabela > 0 and tabela or false
+    if tabela then
+        return table.find(tabela, name:trim(), true)
+    end
+end
+roto = macro(1, 'Enemy', function()
+    local possibleTarget = false
+    for _, creature in ipairs(getSpectators(posz())) do
+        local specHP = creature:getHealthPercent()
+        if creature:isPlayer() and specHP and specHP > 0 then
+            if not isAmigo(creature) and creature:getEmblem() ~= 1 then
+                if creature:canShoot(9) then
+                    if not possibleTarget or possibleTargetHP > specHP or (possibleTargetHP == specHP and possibleTarget:getId() < creature:getId()) then
+                        possibleTarget = creature
+                        possibleTargetHP = possibleTarget:getHealthPercent()
+                    end
+                end
+            end
+        end
+    end
+    if possibleTarget and g_game.getAttackingCreature() ~= possibleTarget then
+        g_game.attack(possibleTarget)
+    end
+end)
+test1 = addIcon("3", {item =111, text = "Enemy", hotkey = "F11"}, roto)
+test1:breakAnchors()
+test1:move(200, 135)
+
+local attackPK  = macro(100, "Revida PvP", 'f8', function()
+  if attacker then 
+    if attacker:getPosition() and attacker:getPosition().z == posz() then
+      if g_game.isAttacking() then
+        if g_game.getAttackingCreature():getName() ~= attacker:getName() then
+          g_game.attack(attacker)
+        end
+      else
+        g_game.attack(attacker)
+      end
+    end
+  else
+    if not g_game.isAttacking() then
+    end
+  end
+  if targetTime then
+    if now - targetTime > 250 then
+      attacker = nil
+    end
+  end
+end)
+onMissle(function(missle)
+  if attackPK.isOn() then
+    local src = missle:getSource()
+    if src.z ~= posz() then
+      return
+    end
+    local shooterTile = g_map.getTile(src)
+    if shooterTile then
+      local creatures = shooterTile:getCreatures()
+      if creatures[1] then
+        if creatures[1]:isPlayer() then
+          local destination = missle:getDestination()
+          if posx() == destination.x and posy() == destination.y then
+            if player:getName() ~= creatures[1]:getName() then
+              if attacker ~= creatures[1] then
+                attacker = creatures[1]
+                targetTime = now
+                 TargetBot.setOff()
+                CaveBot.setOff()
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end)
+Panels.AttackLeaderTarget(batTab)  UI.Separator()
+
+setDefaultTab("Macros")
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[AUTOCOMPRA]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+local bless = false
+macro(1000, "Auto Bless", function()
+    if bless ~= true then
+        bless = true
+      say("!bless")
+    end
+end)
+macro(1000, "Auto !bol", function()
+  if not getFinger() then
+      say('!bol')
+  end
+end)
+
+
+
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[ESPECIALES]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+
+local spellKai = 'mystic kai';
+local spellDefense = 'mystic defense';
+mysticMacro = function()
+    local selfHealth, selfMana = hppercent(), manapercent();
+    local mystic = hasManaShield();
+    if selfHealth <= 75 and selfMana >= 90 and not mystic then
+        if tyrBot and tyrBot.storage.regenDelay then
+            tyrBot.storage.regenDelay = os.time() + 1;
+        end
+        say(spellDefense)
+    elseif selfHealth >= 80 and selfMana <= 30 and mystic then
+        say(spellKai)
+    end
+end
+
+
+
+macro(100, ".::Mystic Defense::.", mysticMacro);
+
+
+------------------------------------------------------------------------------------------------------
+local reflectSpell = 'reflect' -- spell de reflect
+local reflectCooldown = 2 -- em segundos
+
+-- não altere abaixo.
+--------------------------
+
+function getFirstNumberInText(text)
+    local n = nil
+    if string.match(text, "%d+") then n = tonumber(string.match(text, "%d+")) end
+    return n
+end
+
+local Reflect = {}
+local hasReflect = true
+local countDamage = 0
+Reflect.macro = macro(100, ".::Reflect::.", function()
+    if not hasReflect and (not Reflect.cdW or Reflect.cdW <= os.time()) then
+        say(reflectSpell)
+    end
+end)
+
+--00:19 You lose 4821 hitpoints due to an attack by sound shinobi.
+onTextMessage(function(mode, text)
+    if Reflect.macro.isOff() then 
+        return
+    end
+    if not text:lower():find('you lose') then 
+        return
+    end
+    countDamage = getFirstNumberInText(text)
+    if countDamage > 50 and (not Reflect.timeReset or Reflect.timeReset <= os.time()) then
+        hasReflect = false
+        Reflect.timeReset = os.time() + 1
+    end
+end)
+
+onTalk(function(name, level, mode, text, channelId, pos)
+    if Reflect.macro.isOff() then return; end
+    if name ~= player:getName() then return; end
+    if text:lower() == reflectSpell then
+        Reflect.cdW = os.time() + reflectCooldown
+        hasReflect = true
+    end
+end)
+
+
+
+ 
+local name = UI.Label("-- [[PET]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+--monstros que vão ser ignorados no target
+local monstrosIgnorados = {
+['TREE TREE'] = true,
+['tree tree'] = true,
+['TREE TWO'] = true,
+['tree two'] = true,
+['TREE ONE'] = true,
+['tree one'] = true,
+['[PET] TENEBRA'] = true,
+['[PET] PIKACHU'] = true,
+['mordor shimit'] = true,
+['best fear'] = true,
+['VIOLET PET'] = true,
+['violet pet'] = true,
+['dendefarmone'] = true,
+}
+
+local distancia2 = 7 -- distancia para atacar os monstros
+
+macro(200, "Atacar Monstros Ignore Pet", function()
+local monstros = g_map.getSpectators(g_game.getLocalPlayer():getPosition(), false)
+for k,v in pairs(monstros) do
+if not isInPz() and v:isMonster() and not g_game.isAttacking() 
+and not monstrosIgnorados[v:getName():lower()] 
+and getDistanceBetween(pos(), v:getPosition()) <= distancia2 then
+g_game.attack(v)
+end
+end
+end)
+
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[NECESARIOS]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+
+macro(1, 'Acertar Canudo', function()
+ if not g_game.isAttacking() then return end
+ local tt = g_game.getAttackingCreature()
+ local tx = tt:getPosition().x
+ local ty = tt:getPosition().y
+ local dir = player:getDirection()
+ local tdx = math.abs(tx-pos().x)
+ local tdy = math.abs(ty-pos().y)
+ if (tdy >= 2 and tdx >= 2) or tdx > 7 or tdy > 7 then return end 
+ if tdy >= tdx then
+  if ty > pos().y then
+   if dir ~= 2 then
+    return turn(2)
+   end
+  else
+   if dir ~= 0 then
+    return turn(0)
+   end
+  end
+ else
+  if tx > pos().x then
+   if dir ~= 1 then
+    return turn(1)
+   end
+  else
+   if dir ~= 3 then
+    return turn(3)
+   end
+  end
+ end
+end)
+local function checkPos(x, y)
+ xyz = g_game.getLocalPlayer():getPosition()
+ xyz.x = xyz.x + x
+ xyz.y = xyz.y + y
+ tile = g_map.getTile(xyz)
+ if tile then
+  return g_game.use(tile:getTopUseThing())  
+ else
+  return false
+ end
+end 
+bugmap = macro(1, 'Bug Map F9', '', function() 
+ if modules.corelib.g_keyboard.isKeyPressed('w') then
+  checkPos(0, -5)
+ elseif modules.corelib.g_keyboard.isKeyPressed('e') then
+  checkPos(3, -3)
+ elseif modules.corelib.g_keyboard.isKeyPressed('d') then
+  checkPos(5, 0)
+ elseif modules.corelib.g_keyboard.isKeyPressed('c') then
+  checkPos(3, 3)
+ elseif modules.corelib.g_keyboard.isKeyPressed('s') then
+  checkPos(0, 5)
+ elseif modules.corelib.g_keyboard.isKeyPressed('z') then
+  checkPos(-3, 3)
+ elseif modules.corelib.g_keyboard.isKeyPressed('a') then
+  checkPos(-5, 0)
+ elseif modules.corelib.g_keyboard.isKeyPressed('q') then
+  checkPos(-3, -3)
+ end
+end)
+
+test1 = addIcon("5", {item =642, text = "Bug Map", hotkey = "F9"}, bugmap)
+test1:breakAnchors()
+test1:move(200, 185)
+
+ds= macro(100, "Hold Target", nil, function()
+  if g_game.isAttacking() 
+then
+ oldTarget = g_game.getAttackingCreature()
+  end
+  if (oldTarget and oldTarget:getPosition()) 
+then
+ if (not g_game.isAttacking() and getDistanceBetween(pos(), oldTarget:getPosition()) <= 8) then
+    
+if (oldTarget:getPosition().z == posz()) then
+        g_game.attack(oldTarget)
+      end
+    end
+  end
+end)
+test1 = addIcon("6", {item =1112, text = "H.T", hotkey = ""}, ds)
+test1:breakAnchors()
+test1:move(200, 350)
+
+
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[UTILES]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+macro(1, 'Acertar Canudo', function()
+ if not g_game.isAttacking() then return end
+ local tt = g_game.getAttackingCreature()
+ local tx = tt:getPosition().x
+ local ty = tt:getPosition().y
+ local dir = player:getDirection()
+ local tdx = math.abs(tx-pos().x)
+ local tdy = math.abs(ty-pos().y)
+ if (tdy >= 2 and tdx >= 2) or tdx > 7 or tdy > 7 then return end 
+ if tdy >= tdx then
+  if ty > pos().y then
+   if dir ~= 2 then
+    return turn(2)
+   end
+  else
+   if dir ~= 0 then
+    return turn(0)
+   end
+  end
+ else
+  if tx > pos().x then
+   if dir ~= 1 then
+    return turn(1)
+   end
+  else
+   if dir ~= 3 then
+    return turn(3)
+   end
+  end
+ end
+end)
+local function checkPos(x, y)
+ xyz = g_game.getLocalPlayer():getPosition()
+ xyz.x = xyz.x + x
+ xyz.y = xyz.y + y
+ tile = g_map.getTile(xyz)
+ if tile then
+  return g_game.use(tile:getTopUseThing())  
+ else
+  return false
+ end
+end 
+
+local dropItems = { 3035 }
+local maxStackedItems = 10
+local dropDelay = 100
+
+gpAntiPushDrop = macro(dropDelay , "anti push", function ()
+  antiPush()
+end)
+
+onPlayerPositionChange(function()
+    antiPush()
+end)
+
+function antiPush()
+  if gpAntiPushDrop:isOff() then
+    return
+  end
+
+  local tile = g_map.getTile(pos())
+  if tile and tile:getThingCount() < maxStackedItems then
+    local thing = tile:getTopThing()
+    if thing and not thing:isNotMoveable() then
+      for i, item in pairs(dropItems) do
+        if item ~= thing:getId() then
+            local dropItem = findItem(item)
+            if dropItem then
+              g_game.move(dropItem, pos(), 1)
+            end
+        end
+      end
+    end
+  end
+end
+
+
+
+macro(1, "Atk Mob Tela", "", function() 
+  local battlelist = getSpectators();
+  local closest = 10
+  local lowesthpc = 101
+  for key, val in pairs(battlelist) do
+    if val:isMonster() then
+      if getDistanceBetween(player:getPosition(), val:getPosition()) <= closest then
+        closest = getDistanceBetween(player:getPosition(), val:getPosition())
+        if val:getHealthPercent() < lowesthpc then
+          lowesthpc = val:getHealthPercent()
+        end
+      end
+    end
+  end
+  for key, val in pairs(battlelist) do
+    if val:isMonster() then
+      if getDistanceBetween(player:getPosition(), val:getPosition()) <= closest then
+        if g_game.getAttackingCreature() ~= val and val:getHealthPercent() <= lowesthpc then 
+          g_game.attack(val)
+     delay(100)
+          break
+        end
+      end
+    end
+  end
+end)
+test1 = addIcon("2", {item =909, text = "Combo", hotkey = ""}, attack)
+test1:breakAnchors()
+test1:move(200, 245)
+
+
+md = macro(100, "PowerDown", function()
+if (manapercent() >= 20) then 
+say('PowerDown')
+end
+end)
+test1 = addIcon("9", {item =1718, text = "M.D", hotkey = ""}, md)
+test1:breakAnchors()
+test1:move(200, 400)
+
+--[[Esconder Magias Laranjas da tela]]--
+TH = macro(100, "esconder msg laranja", function() end)
+onStaticText(function(thing, text)
+    if TH.isOff() then return end
+    if not text:find('says:') then
+        g_map.cleanTexts()
+    end
+end)
+
+
+--[[esconder MAGIAS(SPRITES)]]--
+sprh = macro(100, "esconder sprite", function() end)
+onAddThing(function(tile, thing)
+    if sprh.isOff() then return end
+    if thing:isEffect() then
+        thing:hide()
+    end
+end)
+
+macro(500, "Auto Haste", nil, function()
+    if not hasHaste() and storage.autoHasteText:len() > 0 then
+      if saySpell(storage.autoHasteText) then
+        delay(5000)
+      end
+    end
+  end)
+  addTextEdit("autoHasteText", storage.autoHasteText or "super speed", function(widget, text) 
+    storage.autoHasteText = text
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
