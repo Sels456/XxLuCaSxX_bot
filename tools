@@ -1,0 +1,629 @@
+if type(storage.moneyItems) ~= "table" then
+  storage.moneyItems = {3031, 3035}
+end
+macro(1000, "Exchange money", function()
+  if not storage.moneyItems[1] then return end
+  local containers = g_game.getContainers()
+  for index, container in pairs(containers) do
+    if not container.lootContainer then -- ignore monster containers
+      for i, item in ipairs(container:getItems()) do
+        if item:getCount() == 100 then
+          for m, moneyId in ipairs(storage.moneyItems) do
+            if item:getId() == moneyId.id then
+              return g_game.use(item)            
+            end
+          end
+        end
+      end
+    end
+  end
+end)
+
+local moneyContainer = UI.Container(function(widget, items)
+  storage.moneyItems = items
+end, true)
+moneyContainer:setHeight(35)
+moneyContainer:setItems(storage.moneyItems)
+
+UI.Separator()
+
+
+-- allows to test/edit bot lua scripts ingame, you can have multiple scripts like this, just change storage.ingame_lua
+UI.Button("Hotkeys 2", function(newText)
+  UI.MultilineEditorWindow(storage.ingame_hotkeys2 or "", {title="Hotkeys editor 2", description="Adicione suas scripts aqui!"}, function(text)
+    storage.ingame_hotkeys2 = text
+    reload()
+  end)
+end)
+
+UI.Separator()
+
+for _, scripts in pairs({storage.ingame_hotkeys2}) do
+  if type(scripts) == "string" and scripts:len() > 3 then
+    local status, result = pcall(function()
+      assert(load(scripts, "ingame_editor"))()
+    end)
+    if not status then 
+      error("Ingame edior error:\n" .. result)
+    end
+  end
+end
+
+
+lblInfo= UI.Label("-- [[FOLLOW AND PARTY]] --")
+
+ local panelName = "autoParty"
+local autopartyui = setupUI([[
+Panel
+  height: 38
+
+  BotSwitch
+    id: status
+    anchors.top: parent.top
+    anchors.left: parent.left
+    text-align: center
+    width: 130
+    height: 18
+    text: Auto Party
+
+  Button
+    id: editPlayerList
+    anchors.top: prev.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 3
+    height: 17
+    text: Setup
+
+  Button
+    id: ptLeave
+    text: Leave Party
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+    width: 86
+    height: 17
+    margin-top: 3
+    color: #ee0000
+
+  Button
+    id: ptShare
+    text: Share XP
+    anchors.left: prev.right
+    anchors.top: prev.top
+    margin-left: 5
+    height: 17
+    width: 86
+
+  ]], parent)
+
+g_ui.loadUIFromString([[
+AutoPartyName < Label
+  background-color: alpha
+  text-offset: 2 0
+  focusable: true
+  height: 16
+
+  $focus:
+    background-color: #00000055
+
+  Button
+    id: remove
+    text: x
+    anchors.right: parent.right
+    margin-right: 15
+    width: 15
+    height: 15
+
+AutoPartyListWindow < MainWindow
+  text: Auto Party
+  size: 180 275
+  @onEscape: self:hide()
+
+  Label
+    id: lblLeader
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.right: parent.right
+    text-align: center
+    text: Leader Name
+
+  TextEdit
+    id: txtLeader
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+
+  Label
+    id: lblParty
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+    anchors.right: parent.right
+    margin-top: 5
+    text-align: center
+    text: Party List
+
+  TextList
+    id: lstAutoParty
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    margin-bottom: 5
+    padding: 1
+    height: 83
+    vertical-scrollbar: AutoPartyListListScrollBar
+
+  VerticalScrollBar
+    id: AutoPartyListListScrollBar
+    anchors.top: lstAutoParty.top
+    anchors.bottom: lstAutoParty.bottom
+    anchors.right: lstAutoParty.right
+    step: 14
+    pixels-scroll: true
+
+  TextEdit
+    id: playerName
+    anchors.left: parent.left
+    anchors.top: lstAutoParty.bottom
+    margin-top: 5
+    width: 120
+
+  Button
+    id: addPlayer
+    text: +
+    anchors.right: parent.right
+    anchors.left: prev.right
+    anchors.top: prev.top
+    margin-left: 3
+
+  HorizontalSeparator
+    id: separator
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+    margin-top: 8
+
+  CheckBox
+    id: creatureMove
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    text: Invite on move
+    tooltip: This will activate the invite on player move.
+
+  HorizontalSeparator
+    id: separator
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.bottom: closeButton.top
+    margin-bottom: 8
+
+  Button
+    id: closeButton
+    text: Close
+    font: cipsoftFont
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    size: 45 21
+]])
+
+if not storage[panelName] then
+    storage[panelName] = {
+        leaderName = 'Leader',
+        autoPartyList = {},
+        enabled = true,
+    }
+end
+
+if not storage[panelName].onMove then
+    storage[panelName].onMove = false
+end
+rootWidget = g_ui.getRootWidget()
+if rootWidget then
+    tcAutoParty = autopartyui.status
+
+    autoPartyListWindow = UI.createWindow('AutoPartyListWindow', rootWidget)
+    autoPartyListWindow:hide()
+
+    autopartyui.editPlayerList.onClick = function(widget)
+        autoPartyListWindow:show()
+        autoPartyListWindow:raise()
+        autoPartyListWindow:focus()
+    end
+
+    autopartyui.ptShare.onClick = function(widget)
+        g_game.partyShareExperience(not player:isPartySharedExperienceActive())
+    end
+
+    autopartyui.ptLeave.onClick = function(widget)
+        g_game.partyLeave()
+    end
+
+    autoPartyListWindow.closeButton.onClick = function(widget)
+        autoPartyListWindow:hide()
+    end
+
+    if storage[panelName].autoPartyList and #storage[panelName].autoPartyList > 0 then
+        for _, pName in ipairs(storage[panelName].autoPartyList) do
+            local label = g_ui.createWidget("AutoPartyName", autoPartyListWindow.lstAutoParty)
+            label.remove.onClick = function(widget)
+                table.removevalue(storage[panelName].autoPartyList, label:getText())
+                label:destroy()
+            end
+            label:setText(pName)
+        end
+    end
+    autoPartyListWindow.addPlayer.onClick = function(widget)
+        local playerName = autoPartyListWindow.playerName:getText()
+        if playerName:len() > 0 and not (table.contains(storage[panelName].autoPartyList, playerName, true)
+                or storage[panelName].leaderName == playerName) then
+            table.insert(storage[panelName].autoPartyList, playerName)
+            local label = g_ui.createWidget("AutoPartyName", autoPartyListWindow.lstAutoParty)
+            label.remove.onClick = function(widget)
+                table.removevalue(storage[panelName].autoPartyList, label:getText())
+                label:destroy()
+            end
+            label:setText(playerName)
+            autoPartyListWindow.playerName:setText('')
+        end
+    end
+
+    autopartyui.status:setOn(storage[panelName].enabled)
+    autopartyui.status.onClick = function(widget)
+        storage[panelName].enabled = not storage[panelName].enabled
+        widget:setOn(storage[panelName].enabled)
+    end
+
+    autoPartyListWindow.creatureMove:setChecked(storage[panelName].onMove)
+    autoPartyListWindow.creatureMove.onClick = function(widget)
+        storage[panelName].onMove = not storage[panelName].onMove
+        widget:setChecked(storage[panelName].onMove)
+    end
+
+    autoPartyListWindow.playerName.onKeyPress = function(self, keyCode, keyboardModifiers)
+        if not (keyCode == 5) then
+            return false
+        end
+        autoPartyListWindow.addPlayer.onClick()
+        return true
+    end
+
+    autoPartyListWindow.playerName.onTextChange = function(widget, text)
+        if table.contains(storage[panelName].autoPartyList, text, true) then
+            autoPartyListWindow.addPlayer:setColor("#FF0000")
+        else
+            autoPartyListWindow.addPlayer:setColor("#FFFFFF")
+        end
+    end
+
+    autoPartyListWindow.txtLeader.onTextChange = function(widget, text)
+        storage[panelName].leaderName = text
+    end
+    autoPartyListWindow.txtLeader:setText(storage[panelName].leaderName)
+
+    onTextMessage(function(mode, text)
+        if tcAutoParty:isOn() then
+            if mode == 20 then
+                if text:find("has joined the party") then
+                    local data = regexMatch(text, "([a-z A-Z-]*) has joined the party")[1][2]
+                    if data then
+                        if table.contains(storage[panelName].autoPartyList, data, true) then
+                            if not player:isPartySharedExperienceActive() then
+                                g_game.partyShareExperience(true)
+                            end
+                        end
+                    end
+                elseif text:find("has invited you") then
+                    if player:getName():lower() == storage[panelName].leaderName:lower() then
+                        return
+                    end
+                    local data = regexMatch(text, "([a-z A-Z-]*) has invited you")[1][2]
+                    if data then
+                        if storage[panelName].leaderName:lower() == data:lower() then
+                            local leader = getCreatureByName(data, true)
+                            if leader then
+                                g_game.partyJoin(leader:getId())
+                                return
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+
+    function creatureInvites(creature)
+        if not creature:isPlayer() or creature == player then return end
+        if creature:getName():lower() == storage[panelName].leaderName:lower() then
+            if creature:getShield() == 1 then
+                g_game.partyJoin(creature:getId())
+                return
+            end
+        end
+        if player:getName():lower() ~= storage[panelName].leaderName:lower() then return end
+        if not table.contains(storage[panelName].autoPartyList, creature:getName(), true) then return end
+        if creature:isPartyMember() or creature:getShield() == 2 then return end
+        g_game.partyInvite(creature:getId())
+    end
+
+    onCreatureAppear(function(creature)
+        if tcAutoParty:isOn() then
+            creatureInvites(creature)
+        end
+    end)
+    onCreaturePositionChange(function(creature, newPos, oldPos)
+        if tcAutoParty:isOn() and storage[panelName].onMove then
+            creatureInvites(creature)
+        end
+    end)
+end
+
+ UI.Separator() followName = "autofollow"
+if not storage[followName] then storage[followName] = { player = 'name'} end
+local toFollowPos = {}
+
+addSeparator()
+
+followTE = UI.TextEdit(storage[followName].player or "name", function(widget, newText)
+    storage[followName].player = newText
+end)
+
+local followChange = macro(1000, "Follow",  function()
+local followw= storage[followName].player 
+    if g_game.isFollowing() then
+        return
+    end
+    for _, followcreature in ipairs(g_map.getSpectators(pos(), false)) do
+        if (followcreature:getName() == followw and getDistanceBetween(pos(), followcreature:getPosition()) <= 8) then
+            g_game.follow(followcreature)
+        end
+    end
+end) 
+
+local followMacro = macro(20, "Follow Attack", function()
+    local target = getCreatureByName(storage[followName].player)
+    if target then
+        local tpos = target:getPosition()
+        toFollowPos[tpos.z] = tpos
+    end
+    if player:isWalking() then
+        return
+    end
+    local p = toFollowPos[posz()]
+    if not p then
+        return
+    end
+    if autoWalk(p, 20, { ignoreNonPathable = true, precision = 1 }) then
+        delay(100)
+    end
+end)
+UI.Separator()
+onPlayerPositionChange(function(newPos, oldPos)
+  if followChange:isOff() then return end
+  if (g_game.isFollowing()) then
+    tfollow = g_game.getFollowingCreature()
+
+    if tfollow then
+      if tfollow:getName() ~= storage[followName].player then
+        followTE:setText(tfollow:getName())
+        storage[followName].player = tfollow:getName()
+      end
+    end
+  end
+end)
+
+onCreaturePositionChange(function(creature, newPos, oldPos)
+    if creature:getName() == storage[followName].player and newPos then
+        toFollowPos[newPos.z] = newPos
+    end
+end) 
+
+
+
+
+  local ui = setupUI([[
+Panel
+
+  height: 25
+
+  Label
+    id: editCustom2
+    color: white
+    font: verdana-11px-rounded
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 25
+    !text: tr('                         XxLuCaSxX')
+
+
+  ]], parent)
+
+  
+
+ui.editCustom2.onClick = function(widget)
+reload()
+end
+
+  local ui = setupUI([[
+Panel
+
+  height: 25
+
+  Label
+    id: editCustom2
+    color: orange
+    font: verdana-11px-rounded
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 25
+    !text: tr('       whatsApp +59161298564')
+
+
+  ]], parent)
+
+
+
+-- adicione as cidades aqui
+local cities = {
+  'wars city',
+  'gelandia',
+  'eld florest',
+  'morgun',
+  'zenet city',
+  'nair city',
+  'egipse city',
+  'narutz city',
+  'hashirama city',
+  'cantasia',
+  'gouble city',
+  'temple of haley',
+  'decray city',
+  'colinas',
+  'arena quest',
+  'free zone',
+  'amun ra city',
+  'sagrade island',
+  'ferock',
+  'zanbur',
+  'ala in hell',
+  'magnus linear',
+  'sagitaria',
+}
+-- adicione o nome do npc
+local npcName = 'Travel Wars';
+
+
+-- não edita nada abaixo disso
+travelUI = setupUI([[
+UIWindow
+  !text: tr('Ciudad')
+  color: #99d6ff
+  font: sans-bold-16px
+  size: 100 100
+  background-color: black
+  opacity: 0.85
+  anchors.left: parent.left
+  anchors.top: parent.top
+  margin-left: 600
+  margin-top: 150
+
+  ComboBox
+    id: travelOptions
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    text-align: center
+    opacity: 1.0
+    color: yellow
+    font: sans-bold-16px
+    margin-top: 25
+
+    @onSetup: |
+      self:addOption("None")
+
+  Button
+    id: closeButton
+    text: X
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    color: #99d6ff
+    size: 15 15
+    margin-bottom: 10
+    margin-right: 10
+
+
+    
+]], g_ui.getRootWidget());
+travelUI:hide();
+
+for _, city in ipairs(cities) do
+  travelUI.travelOptions:addOption(city)
+end
+
+NPC.talk = function(text)
+  if g_game.getClientVersion() >= 810 then
+      g_game.talkChannel(11, 0, text)
+  else
+      return say(text)
+  end
+end
+
+macro(100, function()
+  local findNpc = getCreatureByName(npcName)
+  if findNpc and getDistanceBetween(pos(), findNpc:getPosition()) <= 2 then
+      travelUI:show();
+  else
+      travelUI:hide();
+  end
+end)
+
+travelUI.travelOptions.onOptionChange = function(widget, option, data)
+  say('hi')
+  schedule(100, function()
+      NPC.talk(option)
+  end)
+  schedule(300, function()
+      NPC.talk('yes')
+  end)
+end
+
+UI.Separator()
+
+-- Verifica si storage.pickUp no es una tabla, si no lo es, asigna una tabla con valores predeterminados
+if type(storage.pickUp) ~= "table" then
+  storage.pickUp = {3725, 3723}
+end
+
+-- Verifica si storage.containerpickUp no es una tabla, si no lo es, asigna una tabla con valores predeterminados
+if type(storage.containerpickUp) ~= "table" then
+  storage.containerpickUp = {5926}
+end
+
+-- Crea un contenedor para los items a recolectar
+local pickUpContainer = UI.Container(function(widget, items)
+  storage.pickUp = items
+end, true)
+pickUpContainer:setHeight(54)
+pickUpContainer:setItems(storage.pickUp)
+
+-- Cantidad de SQM alrededor del personaje que va a chequear
+local CheckPOS = 1
+
+UI.Label("BP Que Recolecta")
+
+-- Crea un contenedor para los containers donde se guardarán los items recolectados
+local containerpickUpContainer = UI.Container(function(widget, items)
+  storage.containerpickUp = items
+end, true)
+containerpickUpContainer:setHeight(54)
+containerpickUpContainer:setItems(storage.containerpickUp)
+-- Macro para recolectar items del suelo cada 20 milisegundos
+macro(20, "Recolectar del suelo", "", function()
+  if not storage.pickUp[1] then return end
+  for x = -CheckPOS, CheckPOS do
+    for y = -CheckPOS, CheckPOS do
+      local tile = g_map.getTile({x = posx() + x, y = posy() + y, z = posz()})
+      if tile then
+        local things = tile:getThings()
+        for a, item in pairs(things) do
+          for c, recolectar in pairs(storage.pickUp) do
+            if table.find(recolectar, item:getId()) then
+              local containers = getContainers()
+              for _, container in pairs(containers) do            
+                for g, guardar in pairs(storage.containerpickUp) do
+                  if table.find(guardar, container:getContainerItem():getId()) then
+                    g_game.move(item, container:getSlotPosition(container:getItemsCount()), item:getCount())                
+                  end  
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end)
