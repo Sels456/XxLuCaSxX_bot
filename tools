@@ -1,3 +1,4 @@
+setDefaultTab("Tools")
 if type(storage.moneyItems) ~= "table" then
   storage.moneyItems = {3031, 3035}
 end
