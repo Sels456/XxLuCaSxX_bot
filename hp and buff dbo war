@@ -1,0 +1,150 @@
+
+setDefaultTab("HP")
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[REGENERATION]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#00bfff", "#0099cc", "#0077b3", "#005c99", "#004080", "#002966"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+macro(100, "Regeneration", function()
+  if hppercent() <= 99 then
+   say('Regeneration')
+  end
+end)
+
+
+macro(100, "Big Regeneration", function()
+  if hppercent() <= 99 then
+   say('Big Regeneration')
+  end
+end)
+
+macro(100, "Hibrido Regen", function()
+  if hppercent() <= 99 then
+   say('Hibrido Regeneration')
+  end
+end)
+
+macro(100, "Fire Regen", function()
+  if hppercent() <= 99 then
+   say('Fire Regeneration')
+  end
+end)
+
+macro(100, "Magnus Regen", function()
+  if hppercent() <= 99 then
+   say('Magnus Regeneration')
+  end
+end)
+
+-- Establece la pestaña por defecto en "spells"
+setDefaultTab("HP")
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[SENZU]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#00bfff", "#0099cc", "#0077b3", "#005c99", "#004080", "#002966"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+macro(100, "Regeneration", function()
+  if hppercent() <= 99 then
+   say('Regeneration')
+  end
+end)
+
+macro(1, 'EXODIA PORTION [RARE]s', function()
+  if hppercent() <= 90 or manapercent() <= 90 then
+   usewith(13233, player)
+   end
+end)
+
+
+macro(1, 'TENEBRA SENZU', function()
+  if hppercent() <= 90 or manapercent() <= 90 then
+   usewith(13320, player)
+   end
+end)
+
+sb = macro(1, 'RAYMOND STRIKER', function()
+  if hppercent() <= 98 or manapercent() <= 98 then
+   usewith(6105, player)
+   end
+end)
+test1 = addIcon("RAYMOND STRIKER", {item =6105, text = "Ray", hotkey = "ctrl+space"}, sb)
+test1:breakAnchors()
+test1:move(200, 500)
+
+-- Establece la pestaña por defecto en "spells"
+setDefaultTab("HP")
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[BUFF]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#00bfff", "#0099cc", "#0077b3", "#005c99", "#004080", "#002966"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+macro(8000, "Power", function()
+  say('Power Up')
+end)
+
+macro(8000, "Mega Power", function()
+  say('Mega Power Up')
+end)
+
+macro(8000, "Giga Power", function()
+  say('Giga Power Up')
+end)
+
+macro(8000, " Plation Power", function()
+  say('Plation Power Up')
+end)
+
+macro(8000, " Hibrido ", function()
+  say('Hibrido Power Up')
+end)
+
+macro(8000, " Fire ", function()
+  say('fire Power Up')
+end)
+
+macro(8000, " Magnus", function()
+  say('Magnus Power Up')
+end)
