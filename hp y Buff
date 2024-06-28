@@ -51,6 +51,12 @@ macro(100, "Magnus Regen", function()
   end
 end)
 
+macro(100, "MArio Regen", function()
+  if hppercent() <= 99 then
+   say('Mario Regeneration')
+  end
+end)
+
 -- Establece la pestaña por defecto en "spells"
 setDefaultTab("HP")
 
@@ -144,3 +150,8 @@ end)
 macro(8000, " Magnus", function()
   say('Magnus Power Up')
 end)
+
+macro(8000, " Mario", function()
+  say('Mamario Power Up')
+end)
+
