@@ -51,7 +51,25 @@ for _, scripts in pairs({storage.ingame_hotkeys2}) do
 end
 
 
-lblInfo= UI.Label("-- [[FOLLOW AND PARTY]] --")
+
+-- Crea una etiqueta de UI con el texto 
+local name = UI.Label("--[[FRIENDS]]--")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
 
  local panelName = "autoParty"
 local autopartyui = setupUI([[
@@ -423,52 +441,62 @@ onCreaturePositionChange(function(creature, newPos, oldPos)
 end) 
 
 
+local name = UI.Label("XxLuCaSxX")
 
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
 
-  local ui = setupUI([[
-Panel
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
 
-  height: 25
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+local name = UI.Label("Whatsapp +59161298564")
 
-  Label
-    id: editCustom2
-    color: white
-    font: verdana-11px-rounded
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-    height: 25
-    !text: tr('                         XxLuCaSxX')
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
 
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
 
-  ]], parent)
-
-  
-
-ui.editCustom2.onClick = function(widget)
-reload()
-end
-
-  local ui = setupUI([[
-Panel
-
-  height: 25
-
-  Label
-    id: editCustom2
-    color: orange
-    font: verdana-11px-rounded
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-    height: 25
-    !text: tr('       whatsApp +59161298564')
-
-
-  ]], parent)
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
 
 
 
+
+
+local name = UI.Label("--[[RECOGER DEL SUELO]]--")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
 -- adicione as cidades aqui
 local cities = {
   'wars city',
