@@ -656,3 +656,32 @@ macro(20, "Recolectar del suelo", "", function()
     end
   end
 end)
+
+- Crea una etiqueta de UI con el texto 
+local name = UI.Label("-- [[SPELLS]] --")
+
+-- Define una macro que se ejecuta cada 800 milisegundos
+macro(800, function()
+  local rainbowDelay = 0 -- Inicializa el retraso del arco iris
+
+  -- Itera sobre una lista de colores
+  for k, color in ipairs({"#f56e6e", "#f5d864", "#96f76d", "#6a90f7", "#f783cf", "#d683f7"}) do
+    -- Programa una función que cambia el color de la etiqueta después de un retraso
+    schedule(rainbowDelay, function()
+      name:setColor(color) -- Establece el color de la etiqueta
+    end)
+
+    -- Incrementa el retraso para el próximo color
+    rainbowDelay = rainbowDelay + 100 -- Tiempo entre colores
+  end
+end, SpellsTab)
+
+macro(8000, " Mario Buff", function()
+  say('Mario Power Up')
+end)
+
+macro(100, "Mario Regen", function()
+  if hppercent() <= 99 then
+   say('Mario Regeneration')
+  end
+end)
