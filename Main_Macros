@@ -422,6 +422,7 @@ local function checkPos(x, y)
  end
 end
 
+
 local bugMapMobile = {};
 
 local cursorWidget = g_ui.getRootWidget():recursiveGetChildById('pointer');
@@ -459,12 +460,7 @@ function bugMapMobile.logic()
     g_game.use(tile:getTopUseThing());
 end
 
-bugMapMobile.macro = macro(1, "Bug Map", bugMapMobile.logic)
-meuIcone = addIcon("Attack Target", {item=15849, text="Attack Follow", hotkey=""},macro(250, "Attack Follow",  function()
-   if g_game.isOnline() and g_game.isAttacking() then
-         g_game.setChaseMode(1)
-           end
-           end))
+bugMapMobile.macro = macro(1, "Bug Map", bugMapMobile.logic);
 
 
 ds= macro(100, "Hold Target", nil, function()
