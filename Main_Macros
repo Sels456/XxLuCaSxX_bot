@@ -420,26 +420,50 @@ local function checkPos(x, y)
   return false
  end
 end 
-bugmap = macro(1, 'Bug Map F9', '', function() 
- if modules.corelib.g_keyboard.isKeyPressed('w') then
-  checkPos(0, -5)
- elseif modules.corelib.g_keyboard.isKeyPressed('e') then
-  checkPos(3, -3)
- elseif modules.corelib.g_keyboard.isKeyPressed('d') then
-  checkPos(5, 0)
- elseif modules.corelib.g_keyboard.isKeyPressed('c') then
-  checkPos(3, 3)
- elseif modules.corelib.g_keyboard.isKeyPressed('s') then
-  checkPos(0, 5)
- elseif modules.corelib.g_keyboard.isKeyPressed('z') then
-  checkPos(-3, 3)
- elseif modules.corelib.g_keyboard.isKeyPressed('a') then
-  checkPos(-5, 0)
- elseif modules.corelib.g_keyboard.isKeyPressed('q') then
-  checkPos(-3, -3)
- end
-end)
 
+local bugMapMobile = {};
+
+local cursorWidget = g_ui.getRootWidget():recursiveGetChildById('pointer');
+
+local initialPos = { x = cursorWidget:getPosition().x / cursorWidget:getWidth(), y = cursorWidget:getPosition().y / cursorWidget:getHeight() };
+
+local availableKeys = {
+    ['Up'] = { 0, -6 },
+    ['Down'] = { 0, 6 },
+    ['Left'] = { -7, 0 },
+    ['Right'] = { 7, 0 }
+};
+
+function bugMapMobile.logic()
+    local pos = pos();
+    local keypadPos = { x = cursorWidget:getPosition().x / cursorWidget:getWidth(), y = cursorWidget:getPosition().y / cursorWidget:getHeight() };
+    local diffPos = { x = initialPos.x - keypadPos.x, y = initialPos.y - keypadPos.y };
+
+    if (diffPos.y < 0.46 and diffPos.y > -0.46) then
+        if (diffPos.x > 0) then
+            pos.x = pos.x + availableKeys['Left'][1];
+        elseif (diffPos.x < 0) then
+            pos.x = pos.x + availableKeys['Right'][1];
+        else return end
+    elseif (diffPos.x < 0.46 and diffPos.x > -0.46) then
+        if (diffPos.y > 0) then
+            pos.y = pos.y + availableKeys['Up'][2];
+        elseif (diffPos.y < 0) then
+            pos.y = pos.y + availableKeys['Down'][2];
+        else return; end
+    end
+    local tile = g_map.getTile(pos);
+    if (not tile) then return; end
+
+    g_game.use(tile:getTopUseThing());
+end
+
+bugMapMobile.macro = macro(1, "Bug Map", bugMapMobile.logic)
+meuIcone = addIcon("Attack Target", {item=15849, text="Attack Follow", hotkey=""},macro(250, "Attack Follow",  function()
+   if g_game.isOnline() and g_game.isAttacking() then
+         g_game.setChaseMode(1)
+           end
+           end) )
 test1 = addIcon("5", {item =642, text = "Bug Map", hotkey = "F9"}, bugmap)
 test1:breakAnchors()
 test1:move(200, 185)
