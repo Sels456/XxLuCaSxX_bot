@@ -421,13 +421,7 @@ local function checkPos(x, y)
  end
 end 
 
-
-test1 = addIcon("5", {item =642, text = "Bug Map", hotkey = "F9"}, bugmap)
-test1:breakAnchors()
-test1:move(200, 185)
-
 bugMapMobile.macro = macro(1, "Bug Map", bugMapMobile.logic)
-
 
 local txtImbuis = UI.Label()
 txtImbuis:setColor("green")
