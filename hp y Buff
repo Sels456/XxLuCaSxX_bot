@@ -63,6 +63,12 @@ macro(100, "Hisoka Regen", function()
   end
 end)
 
+macro(100, "Sung Regen", function()
+  if hppercent() <= 99 then
+   say('Sung Regeneration')
+  end
+end)
+
 -- Establece la pestaña por defecto en "spells"
 setDefaultTab("HP")
 
@@ -157,7 +163,11 @@ macro(8000, " Magnus", function()
   say('Magnus Power Up')
 end)
 
-macro(8000, " Mario", function()
+macro(8000, "Mario", function()
   say('Mario Power Up')
+end)
+
+macro(8000, "Sung", function()
+  say('Sung Power Up')
 end)
 
