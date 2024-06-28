@@ -420,37 +420,39 @@ local function checkPos(x, y)
   return false
  end
 end 
+local function checkPos(x, y)
+ xyz = g_game.getLocalPlayer():getPosition()
+ xyz.x = xyz.x + x
+ xyz.y = xyz.y + y
+ tile = g_map.getTile(xyz)
+ if tile then
+  return g_game.use(tile:getTopUseThing())  
+ else
+  return false
+ end
+end
 
-bugMapMobile.macro = macro(1, "Bug Map", bugMapMobile.logic)
-
-local txtImbuis = UI.Label()
-txtImbuis:setColor("green")
-txtImbuis:setText("Atk Enemy")
-
-local playerList = {}
-local friendPlayers = {'Saci', 'Tia Nastacia'}
-
-macro(1, "ATK ENEMY", function()
-for _,mob in ipairs(getSpectators(posz())) do
-if mob:getEmblem() == 1 then
-table.insert(friendPlayers, mob:getName():lower())
-end
-if not table.find(friendPlayers, mob:getName():lower()) then
-if mob:isPlayer() then
-table.insert(playerList, {player = mob, hpenemy = mob:getHealthPercent()})
-end
-end
-end
-table.sort(playerList, function(a,b) return a.hpenemy < b.hpenemy end)
-if not g_game.isAttacking() and playerList[1] then
-g_game.attack(playerList[1].player)
-end
-playerList = {}
+consoleModule = modules.game_console
+macro(1, 'Bug Map', function() 
+ if modules.corelib.g_keyboard.isKeyPressed('w') and not consoleModule:isChatEnabled() then
+  checkPos(0, -5)
+ elseif modules.corelib.g_keyboard.isKeyPressed('e') and not consoleModule:isChatEnabled() then
+  checkPos(3, -3)
+ elseif modules.corelib.g_keyboard.isKeyPressed('d') and not consoleModule:isChatEnabled() then
+  checkPos(5, 0)
+ elseif modules.corelib.g_keyboard.isKeyPressed('c') and not consoleModule:isChatEnabled() then
+  checkPos(3, 3)
+ elseif modules.corelib.g_keyboard.isKeyPressed('s') and not consoleModule:isChatEnabled() then
+  checkPos(0, 5)
+ elseif modules.corelib.g_keyboard.isKeyPressed('z') and not consoleModule:isChatEnabled() then
+  checkPos(-3, 3)
+ elseif modules.corelib.g_keyboard.isKeyPressed('a') and not consoleModule:isChatEnabled() then
+  checkPos(-5, 0)
+ elseif modules.corelib.g_keyboard.isKeyPressed('q') and not consoleModule:isChatEnabled() then
+  checkPos(-3, -3)
+ end
 end)
 
-test1 = addIcon("5", {item =642, text = "Bug Map", hotkey = "F9"}, bugmap)
-test1:breakAnchors()
-test1:move(200, 185)
 
 ds= macro(100, "Hold Target", nil, function()
   if g_game.isAttacking() 
