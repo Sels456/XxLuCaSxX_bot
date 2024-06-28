@@ -1,3 +1,4 @@
+
 setDefaultTab("main")
 
 -- Crea una etiqueta de UI con el texto 
@@ -123,15 +124,38 @@ UI.Button("Friends", function(newText)
     end)
 end)
 
-
-    macro(1, "Enemy", function()
-for _,pla in ipairs(getSpectators(posz())) do
-attacked = g_game.getAttackingCreature()
-  if (not attacked or (attacked and (not attacked:isPlayer() or (pla:getHealthPercent() < attacked:getHealthPercent())))) and pla:isPlayer() and pla:getEmblem() ~= 1 then 
-   g_game.attack(pla)
-  end
+isAmigo = function(name)
+    if type(name) ~= 'string' then
+        name = name:getName()
+    end
+    local tabela = storage.FriendText:split('\n')
+    tabela = #tabela > 0 and tabela or false
+    if tabela then
+        return table.find(tabela, name:trim(), true)
+    end
 end
+roto = macro(1, 'Enemy', function()
+    local possibleTarget = false
+    for _, creature in ipairs(getSpectators(posz())) do
+        local specHP = creature:getHealthPercent()
+        if creature:isPlayer() and specHP and specHP > 0 then
+            if not isAmigo(creature) and creature:getEmblem() ~= 1 then
+                if creature:canShoot(9) then
+                    if not possibleTarget or possibleTargetHP > specHP or (possibleTargetHP == specHP and possibleTarget:getId() < creature:getId()) then
+                        possibleTarget = creature
+                        possibleTargetHP = possibleTarget:getHealthPercent()
+                    end
+                end
+            end
+        end
+    end
+    if possibleTarget and g_game.getAttackingCreature() ~= possibleTarget then
+        g_game.attack(possibleTarget)
+    end
 end)
+test1 = addIcon("3", {item =111, text = "Enemy", hotkey = "F11"}, roto)
+test1:breakAnchors()
+test1:move(200, 135)
 
 local attackPK  = macro(100, "Revida PvP", 'f8', function()
   if attacker then 
@@ -240,8 +264,8 @@ macro(800, function()
 end, SpellsTab)
 
 
-local castBelowHp = 90
-local deactiveBelowMana = 80
+local castBelowHp = 80
+local deactiveBelowMana = 92
 macro(100, "advanced manashield",  function()
   if (hppercent() <= castBelowHp and manapercent() >= deactiveBelowMana and not hasManaShield()) then
     say('mystic defense')
@@ -250,6 +274,7 @@ macro(100, "advanced manashield",  function()
       say('mystic kai')
   end
 end)
+
 
 ------------------------------------------------------------------------------------------------------
 local reflectSpell = 'reflect' -- spell de reflect
@@ -410,19 +435,6 @@ local function checkPos(x, y)
   return false
  end
 end 
-local function checkPos(x, y)
- xyz = g_game.getLocalPlayer():getPosition()
- xyz.x = xyz.x + x
- xyz.y = xyz.y + y
- tile = g_map.getTile(xyz)
- if tile then
-  return g_game.use(tile:getTopUseThing())  
- else
-  return false
- end
-end
-
-
 local bugMapMobile = {};
 
 local cursorWidget = g_ui.getRootWidget():recursiveGetChildById('pointer');
@@ -461,6 +473,7 @@ function bugMapMobile.logic()
 end
 
 bugMapMobile.macro = macro(1, "Bug Map", bugMapMobile.logic);
+
 
 
 ds= macro(100, "Hold Target", nil, function()
@@ -650,19 +663,3 @@ macro(500, "Auto Haste", nil, function()
   addTextEdit("autoHasteText", storage.autoHasteText or "super speed", function(widget, text) 
     storage.autoHasteText = text
 end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
