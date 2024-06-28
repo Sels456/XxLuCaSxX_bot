@@ -1,4 +1,3 @@
-
 setDefaultTab("main")
 
 -- Crea una etiqueta de UI con el texto 
