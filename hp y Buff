@@ -51,9 +51,15 @@ macro(100, "Magnus Regen", function()
   end
 end)
 
-macro(100, "MArio Regen", function()
+macro(100, "Mario Regen", function()
   if hppercent() <= 99 then
    say('Mario Regeneration')
+  end
+end)
+
+macro(100, "Hisoka Regen", function()
+  if hppercent() <= 99 then
+   say('Hisoka Regeneration')
   end
 end)
 
