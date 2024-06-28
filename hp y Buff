@@ -158,6 +158,6 @@ macro(8000, " Magnus", function()
 end)
 
 macro(8000, " Mario", function()
-  say('Mamario Power Up')
+  say('Mario Power Up')
 end)
 
