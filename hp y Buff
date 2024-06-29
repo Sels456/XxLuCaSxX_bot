@@ -20,50 +20,50 @@ macro(800, function()
   end
 end, SpellsTab)
 
-macro(100, "Regeneration", function()
+macro(500, "Regeneration", function()
   if hppercent() <= 85 then
    say('Regeneration')
   end
 end)
 
 
-macro(100, "Big Regeneration", function()
+macro(500, "Big Regeneration", function()
   if hppercent() <= 85 then
    say('Big Regeneration')
   end
 end)
 
-macro(100, "Hibrido Regen", function()
+macro(500, "Hibrido Regen", function()
   if hppercent() <= 85 then
    say('Hibrido Regeneration')
   end
 end)
 
-macro(100, "Fire Regen", function()
+macro(500, "Fire Regen", function()
   if hppercent() <= 85 then
    say('Fire Regeneration')
   end
 end)
 
-macro(100, "Magnus Regen", function()
+macro(500, "Magnus Regen", function()
   if hppercent() <= 85 then
    say('Magnus Regeneration')
   end
 end)
 
-macro(100, "Mario Regen", function()
+macro(500, "Mario Regen", function()
   if hppercent() <= 85 then
    say('Mario Regeneration')
   end
 end)
 
-macro(100, "Hisoka Regen", function()
+macro(500, "Hisoka Regen", function()
   if hppercent() <= 85 then
    say('Hisoka Regeneration')
   end
 end)
 
-macro(100, "Sung Regen", function()
+macro(500, "Sung Regen", function()
   if hppercent() <= 85 then
    say('Sung Regeneration')
   end
