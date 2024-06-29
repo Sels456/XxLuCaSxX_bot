@@ -279,18 +279,6 @@ end)
 ------------------------------------------------------------------------------------------------------
 
 
-
-onTalk(function(name, level, mode, text, channelId, pos)
-    if Reflect.macro.isOff() then return; end
-    if name ~= player:getName() then return; end
-    if text:lower() == reflectSpell then
-        Reflect.cdW = os.time() + reflectCooldown
-        hasReflect = true
-    end
-end)
-
-
-
  
 local name = UI.Label("-- [[PET]] --")
 
