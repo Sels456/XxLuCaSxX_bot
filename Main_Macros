@@ -66,7 +66,7 @@ addTextEdit("Combo5Text", storage.Combo5Text or "6", function(widget, text) stor
 end)
 test1 = addIcon("2", {item =13351, text = "Combo", hotkey = ""}, cpvp)
 test1:breakAnchors()
-test1:move(200, 75)
+test1:move(100, 75)
 
 local combo
 macro(100, "Hibrido", function()
@@ -94,9 +94,6 @@ say('Magnus penetracion')
 say('magnus destruction')
 end
 end)
-
-
-
 
 -- Crea una etiqueta de UI con el texto 
 local name = UI.Label("-- [[PvP]] --")
