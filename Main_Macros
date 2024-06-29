@@ -266,7 +266,7 @@ end, SpellsTab)
 
 local castBelowHp = 80
 local deactiveBelowMana = 92
-macro(100, "advanced manashield",  function()
+macro(100, ".::Defense Kai",  function()
   if (hppercent() <= castBelowHp and manapercent() >= deactiveBelowMana and not hasManaShield()) then
     say('mystic defense')
   end
@@ -277,17 +277,7 @@ end)
 
 
 ------------------------------------------------------------------------------------------------------
-local reflectSpell = 'reflect' -- spell de reflect
-local reflectCooldown = 2 -- em segundos
 
--- não altere abaixo.
---------------------------
-
-function getFirstNumberInText(text)
-    local n = nil
-    if string.match(text, "%d+") then n = tonumber(string.match(text, "%d+")) end
-    return n
-end
 
 
 onTalk(function(name, level, mode, text, channelId, pos)
