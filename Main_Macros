@@ -134,6 +134,32 @@ isAmigo = function(name)
         return table.find(tabela, name:trim(), true)
     end
 end
+
+test = addIcon("test", {item =15857, text = "enemy", hotkey = "F5"}, 
+macro(1, "Enemy", function()
+ for _,pla in ipairs(getSpectators(posz())) do
+ attacked = g_game.getAttackingCreature()
+  if (not attacked or (attacked and (not attacked:isPlayer() or (pla:getHealthPercent() < attacked:getHealthPercent())))) and pla:isPlayer() and pla:getEmblem() ~= 1 then 
+   g_game.attack(pla)
+  end
+ end
+end) )
+
+test:breakAnchors()
+test:move(220, 100)
+local idz = {9058, 9058, 9058, 9058, 9058, 14848, 14848} -- adicionar ID dos itens
+macro(100, "Coletar itens do chão", function()
+local z = posz()
+for _, tile in ipairs(g_map.getTiles(z)) do
+    if z ~= posz() then return end
+        if getDistanceBetween(pos(), tile:getPosition()) <= 10 then -- distância que quer coletar
+            if table.find(idz, tile:getTopLookThing():getId()) then
+                g_game.move(tile:getTopLookThing(), {x = 65535, y=SlotBack, z=0}, tile:getTopLookThing():getCount())
+            end
+        end
+    end
+end)
+UI.Separator();
 roto = macro(1, "Enemy", function()
 for _,pla in ipairs(getSpectators(posz())) do
 attacked = g_game.getAttackingCreature()
@@ -141,90 +167,12 @@ attacked = g_game.getAttackingCreature()
    g_game.attack(pla)
   end
 end
-end)
-
-local tecla_chicletinho = 'PageUp'
-
-
-hotkey(tecla_chicletinho, function()
- 
-attcked = g_game.getAttackingCreature()
- 
-local analiseHP1 = 100
- 
-local analiseCID1 = nil
- 
-for _, pla in ipairs(getSpectators(posz())) do
-if not attcked or attcked:isMonster() or attcked:isPlayer() and pla:getHealthPercent() <= attcked:getHealthPercent()*0.6 then
-if pla:isPlayer() and pla:getEmblem() ~= 1 and pla:getShield() <= 2 then
- 
-if pla:getHealthPercent() <= analiseHP1 then
-analiseHP1 = pla:getHealthPercent()
-analiseCID1 = getCreatureById(pla:getId())
-end
- 
-end
-end
-end
- 
-if analiseCID1 ~= nil then
-g_game.attack(analiseCID1)
-return
-end
- 
-end)
+end) 
 test1 = addIcon("3", {item =111, text = "Enemy", hotkey = "F11"}, roto)
 test1:breakAnchors()
 test1:move(200, 135)
 
-local attackPK  = macro(100, "Revida PvP", 'f8', function()
-  if attacker then 
-    if attacker:getPosition() and attacker:getPosition().z == posz() then
-      if g_game.isAttacking() then
-        if g_game.getAttackingCreature():getName() ~= attacker:getName() then
-          g_game.attack(attacker)
-        end
-      else
-        g_game.attack(attacker)
-      end
-    end
-  else
-    if not g_game.isAttacking() then
-    end
-  end
-  if targetTime then
-    if now - targetTime > 250 then
-      attacker = nil
-    end
-  end
-end)
-onMissle(function(missle)
-  if attackPK.isOn() then
-    local src = missle:getSource()
-    if src.z ~= posz() then
-      return
-    end
-    local shooterTile = g_map.getTile(src)
-    if shooterTile then
-      local creatures = shooterTile:getCreatures()
-      if creatures[1] then
-        if creatures[1]:isPlayer() then
-          local destination = missle:getDestination()
-          if posx() == destination.x and posy() == destination.y then
-            if player:getName() ~= creatures[1]:getName() then
-              if attacker ~= creatures[1] then
-                attacker = creatures[1]
-                targetTime = now
-                 TargetBot.setOff()
-                CaveBot.setOff()
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-end)
+
 Panels.AttackLeaderTarget(batTab)  UI.Separator()
 
 setDefaultTab("Macros")
@@ -283,7 +231,6 @@ macro(800, function()
   end
 end, SpellsTab)
 
-
 local castBelowHp = 80
 local deactiveBelowMana = 92
 macro(100, ".::Defense Kai::.",  function()
@@ -296,8 +243,13 @@ macro(100, ".::Defense Kai::.",  function()
 end)
 
 
-------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 
+macro(10, "::. Reflect .::", function()
+    if hppercent() <= 98 then -- % para usar Supreme
+        say('Reflect')
+      end
+ end)
 
  
 local name = UI.Label("-- [[PET]] --")
@@ -409,7 +361,8 @@ local function checkPos(x, y)
  else
   return false
  end
-end 
+end
+ 
 local bugMapMobile = {};
 
 local cursorWidget = g_ui.getRootWidget():recursiveGetChildById('pointer');
@@ -447,11 +400,14 @@ function bugMapMobile.logic()
     g_game.use(tile:getTopUseThing());
 end
 
-bugMapMobile.macro = macro(1, "Bug Map", bugMapMobile.logic);
+Bm = macro(1, "Bug Map", bugMapMobile.logic);
+
+test1 = addIcon("6", {item =1112, text = "Bug Map", hotkey = ""}, Bm)
+test1:breakAnchors()
+test1:move(200, 350)
 
 
-
-ds= macro(100, "Hold Target", nil, function()
+ds = macro(100, "Hold Target", nil, function()
   if g_game.isAttacking() 
 then
  oldTarget = g_game.getAttackingCreature()
@@ -567,9 +523,7 @@ function antiPush()
   end
 end
 
-
-
-macro(1, "Atk Mob Tela", "", function() 
+atk = macro(1, "Atk Mob Tela", "", function() 
   local battlelist = getSpectators();
   local closest = 10
   local lowesthpc = 101
@@ -595,10 +549,9 @@ macro(1, "Atk Mob Tela", "", function()
     end
   end
 end)
-test1 = addIcon("2", {item =909, text = "Combo", hotkey = ""}, attack)
+test1 = addIcon("2", {item =909, text = "Atk Mob", hotkey = ""}, atk)
 test1:breakAnchors()
 test1:move(200, 245)
-
 
 md = macro(100, "PowerDown", function()
 if (manapercent() >= 20) then 
@@ -617,7 +570,6 @@ onStaticText(function(thing, text)
         g_map.cleanTexts()
     end
 end)
-
 
 --[[esconder MAGIAS(SPRITES)]]--
 sprh = macro(100, "esconder sprite", function() end)
