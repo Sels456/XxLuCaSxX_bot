@@ -288,7 +288,7 @@ end
 end
 end)
 
-test1 = addIcon("2", {item =13418, text = "Ig Pet", hotkey = ""}, pet)
+test1 = addIcon("2", {item =13481, text = "Ig Pet", hotkey = ""}, pet)
 test1:breakAnchors()
 test1:move(110, 180)
 -- Crea una etiqueta de UI con el texto 
@@ -413,9 +413,9 @@ if (oldTarget:getPosition().z == posz()) then
     end
   end
 end)
-test1 = addIcon("6", {item =1112, text = "H.T", hotkey = ""}, ds)
+test1 = addIcon("6", {item =769, text = "H.T", hotkey = ""}, ds)
 test1:breakAnchors()
-test1:move(200, 350)
+test1:move(60, 220)
 
 
 
@@ -582,7 +582,7 @@ macro(500, "Auto Haste", nil, function()
     storage.autoHasteText = text
 end)
 
-agg = macro(1000, "attk", function()
+agg = macro(1000, "AgoniMute", function()
     if g_game.isAttacking() then
         say("agonimos")
         say("muted")
