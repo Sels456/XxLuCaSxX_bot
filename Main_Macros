@@ -66,7 +66,7 @@ addTextEdit("Combo5Text", storage.Combo5Text or "6", function(widget, text) stor
 end)
 test1 = addIcon("2", {item =13351, text = "Combo", hotkey = ""}, cpvp)
 test1:breakAnchors()
-test1:move(50, 50)
+test1:move(75, 75)
 
 local combo
 macro(100, "Hibrido", function()
@@ -142,7 +142,7 @@ end
 end) 
 test1 = addIcon("3", {item =111, text = "Enemy", hotkey = "F11"}, roto)
 test1:breakAnchors()
-test1:move(150, 50)
+test1:move(100, 75)
 
 
 Panels.AttackLeaderTarget(batTab)  UI.Separator()
