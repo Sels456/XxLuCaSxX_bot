@@ -393,7 +393,7 @@ end
 
 Bm = macro(1, "Bug Map", bugMapMobile.logic);
 
-test1 = addIcon("6", {item =1112, text = "Bug Map", hotkey = ""}, Bm)
+test1 = addIcon("6", {item =769, text = "Bug Map", hotkey = ""}, Bm)
 test1:breakAnchors()
 test1:move(60, 120)
 
@@ -413,7 +413,7 @@ if (oldTarget:getPosition().z == posz()) then
     end
   end
 end)
-test1 = addIcon("6", {item =769, text = "H.T", hotkey = ""}, ds)
+test1 = addIcon("6", {item =12441, text = "H.T", hotkey = ""}, ds)
 test1:breakAnchors()
 test1:move(60, 220)
 
@@ -590,6 +590,6 @@ agg = macro(1000, "AgoniMute", function()
     end
 end)
 
-test1 = addIcon("2", {item =13517, text = "Agonimus", hotkey = ""}, agg)
+test1 = addIcon("2", {item =13517, text = "Agoni", hotkey = ""}, agg)
 test1:breakAnchors()
 test1:move(60, 180)
