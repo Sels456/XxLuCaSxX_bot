@@ -111,7 +111,7 @@ sb = macro(1, 'RAYMOND STRIKER', function()
 end)
 test1 = addIcon("RAYMOND STRIKER", {item =6105, text = "Ray", hotkey = "ctrl+space"}, sb)
 test1:breakAnchors()
-test1:move(200, 500)
+test1:move(160, 180)
 
 -- Establece la pestaña por defecto en "spells"
 setDefaultTab("HP")
