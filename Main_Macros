@@ -134,24 +134,44 @@ isAmigo = function(name)
         return table.find(tabela, name:trim(), true)
     end
 end
-roto = macro(1, 'Enemy', function()
-    local possibleTarget = false
-    for _, creature in ipairs(getSpectators(posz())) do
-        local specHP = creature:getHealthPercent()
-        if creature:isPlayer() and specHP and specHP > 0 then
-            if not isAmigo(creature) and creature:getEmblem() ~= 1 then
-                if creature:canShoot(9) then
-                    if not possibleTarget or possibleTargetHP > specHP or (possibleTargetHP == specHP and possibleTarget:getId() < creature:getId()) then
-                        possibleTarget = creature
-                        possibleTargetHP = possibleTarget:getHealthPercent()
-                    end
-                end
-            end
-        end
-    end
-    if possibleTarget and g_game.getAttackingCreature() ~= possibleTarget then
-        g_game.attack(possibleTarget)
-    end
+roto = macro(1, "Enemy", function()
+for _,pla in ipairs(getSpectators(posz())) do
+attacked = g_game.getAttackingCreature()
+  if (not attacked or (attacked and (not attacked:isPlayer() or (pla:getHealthPercent() < attacked:getHealthPercent())))) and pla:isPlayer() and pla:getEmblem() ~= 1 then 
+   g_game.attack(pla)
+  end
+end
+end)
+
+local tecla_chicletinho = 'PageUp'
+
+
+hotkey(tecla_chicletinho, function()
+ 
+attcked = g_game.getAttackingCreature()
+ 
+local analiseHP1 = 100
+ 
+local analiseCID1 = nil
+ 
+for _, pla in ipairs(getSpectators(posz())) do
+if not attcked or attcked:isMonster() or attcked:isPlayer() and pla:getHealthPercent() <= attcked:getHealthPercent()*0.6 then
+if pla:isPlayer() and pla:getEmblem() ~= 1 and pla:getShield() <= 2 then
+ 
+if pla:getHealthPercent() <= analiseHP1 then
+analiseHP1 = pla:getHealthPercent()
+analiseCID1 = getCreatureById(pla:getId())
+end
+ 
+end
+end
+end
+ 
+if analiseCID1 ~= nil then
+g_game.attack(analiseCID1)
+return
+end
+ 
 end)
 test1 = addIcon("3", {item =111, text = "Enemy", hotkey = "F11"}, roto)
 test1:breakAnchors()
@@ -266,7 +286,7 @@ end, SpellsTab)
 
 local castBelowHp = 80
 local deactiveBelowMana = 92
-macro(100, ".::Defense Kai",  function()
+macro(100, ".::Defense Kai::.",  function()
   if (hppercent() <= castBelowHp and manapercent() >= deactiveBelowMana and not hasManaShield()) then
     say('mystic defense')
   end
@@ -278,7 +298,11 @@ end)
 
 ------------------------------------------------------------------------------------------------------
 
-
+macro(200, ".::Reflect::.", function()
+      if not isSummonOnScreen() then
+         say('reflect')
+   end
+end)
  
 local name = UI.Label("-- [[PET]] --")
 
