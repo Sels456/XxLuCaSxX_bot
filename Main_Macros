@@ -298,11 +298,7 @@ end)
 
 ------------------------------------------------------------------------------------------------------
 
-macro(200, ".::Reflect::.", function()
-      if not isSummonOnScreen() then
-         say('reflect')
-   end
-end)
+
  
 local name = UI.Label("-- [[PET]] --")
 
