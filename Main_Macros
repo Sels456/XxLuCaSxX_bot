@@ -203,10 +203,10 @@ macro(800, function()
   end
 end, SpellsTab)
 
-mk = macro(100, ".::Defense Kai::.", function()
-    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+mk = macro(5000, ".::Defense Kai::.", function()
+    if hppercent() <= 85 and manapercent() > 10 and not hasManaShield() then
         say("MYSTIC DEFENSE")
-    elseif hasManaShield() and (hppercent() >= 90 or manapercent() < 10) then
+    elseif hasManaShield() and (hppercent() >= 95 or manapercent() < 10) then
         say("MYSTIC KAI")
     else
       end
