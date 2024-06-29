@@ -205,7 +205,7 @@ end, SpellsTab)
 
 local castBelowHp = 80
 local deactiveBelowMana = 92
-macro(100, ".::Defense Kai::.",  function()
+mk = macro(100, ".::Defense Kai::.",  function()
   if (hppercent() <= castBelowHp and manapercent() >= deactiveBelowMana and not hasManaShield()) then
     say('mystic defense')
   end
@@ -213,6 +213,10 @@ macro(100, ".::Defense Kai::.",  function()
       say('mystic kai')
   end
 end)
+
+test1 = addIcon("2", {item =13504, text = "Kai", hotkey = ""}, mk)
+test1:breakAnchors()
+test1:move(160, 60)
 
 
 ---------------------------------------------------------------------------------------
@@ -523,7 +527,7 @@ atk = macro(1, "Atk Mob Tela", "", function()
 end)
 test1 = addIcon("2", {item =909, text = "Atk Mob", hotkey = ""}, atk)
 test1:breakAnchors()
-test1:move(200, 245)
+test1:move(160, 120)
 
 md = macro(100, "PowerDown", function()
 if (manapercent() >= 20) then 
@@ -532,7 +536,7 @@ end
 end)
 test1 = addIcon("9", {item =1718, text = "M.D", hotkey = ""}, md)
 test1:breakAnchors()
-test1:move(180, 60)
+test1:move(120, 110)
 
 --[[Esconder Magias Laranjas da tela]]--
 TH = macro(100, "esconder msg laranja", function() end)
