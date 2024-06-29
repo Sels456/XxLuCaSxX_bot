@@ -205,7 +205,7 @@ end, SpellsTab)
 
 local castBelowHp = 90
 local deactiveBelowMana = 95
-mk = macro(20, ".::Defensa Kai::.",  function()
+mk = macro(1, ".::Defensa Kai::.",  function()
   if (hppercent() <= castBelowHp and manapercent() >= deactiveBelowMana and not hasManaShield()) then
     say('mystic Defense')
   end
