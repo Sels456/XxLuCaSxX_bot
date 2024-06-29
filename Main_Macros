@@ -247,24 +247,37 @@ macro(800, function()
 end, SpellsTab)
 --monstros que vão ser ignorados no target
 local monstrosIgnorados = {
-['TREE TREE'] = true,
-['tree tree'] = true,
-['TREE TWO'] = true,
-['tree two'] = true,
-['TREE ONE'] = true,
-['tree one'] = true,
-['[PET] TENEBRA'] = true,
-['[PET] PIKACHU'] = true,
+['CHAMPION'] = true,
+['champion'] = true,
+['GUARDIAN PET'] = true,
+['ZAPTUS PET'] = true,
+['PIKACHU PET'] = true,
+['guardian pet'] = true,
+['best fear'] = true,
+['DRAGON BLACK PET'] = true,
+['dragon black pet'] = true,
+['MORDOR SHIMIT'] = true,
 ['mordor shimit'] = true,
 ['best fear'] = true,
 ['VIOLET PET'] = true,
 ['violet pet'] = true,
-['dendefarmone'] = true,
+['ARMAGEDOM PET'] = true,
+['armagedom pet'] = true,
+['[PET] OLIVARE'] = true,
+['[pet] olivare'] = true,
+['[PET] ORSHAMUL'] = true,
+['[pet] orshamul'] = true,
+['[PET] TENEBRA'] = true,
+['[pet] tenebra'] = true,
+['[PET] HIBRIDO'] = true,
+['[pet] hibrido'] = true,
+['[PET] PIKACHU'] = true,
+['[pet] pikachu'] = true,
 }
 
 local distancia2 = 7 -- distancia para atacar os monstros
 
-macro(200, "Atacar Monstros Ignore Pet", function()
+pet = macro(200, "Atacar Monstros Ignore Pet", function()
 local monstros = g_map.getSpectators(g_game.getLocalPlayer():getPosition(), false)
 for k,v in pairs(monstros) do
 if not isInPz() and v:isMonster() and not g_game.isAttacking() 
@@ -275,7 +288,9 @@ end
 end
 end)
 
-
+test1 = addIcon("2", {item =13418, text = "Ig Pet", hotkey = ""}, pet)
+test1:breakAnchors()
+test1:move(110, 180)
 -- Crea una etiqueta de UI con el texto 
 local name = UI.Label("-- [[NECESARIOS]] --")
 
@@ -536,7 +551,7 @@ end
 end)
 test1 = addIcon("9", {item =1718, text = "M.D", hotkey = ""}, md)
 test1:breakAnchors()
-test1:move(120, 110)
+test1:move(110, 120)
 
 --[[Esconder Magias Laranjas da tela]]--
 TH = macro(100, "esconder msg laranja", function() end)
@@ -566,3 +581,15 @@ macro(500, "Auto Haste", nil, function()
   addTextEdit("autoHasteText", storage.autoHasteText or "super speed", function(widget, text) 
     storage.autoHasteText = text
 end)
+
+agg = macro(1000, "attk", function()
+    if g_game.isAttacking() then
+        say("agonimos")
+        say("muted")
+        say("titan attack")
+    end
+end)
+
+test1 = addIcon("2", {item =13517, text = "Agonimus", hotkey = ""}, agg)
+test1:breakAnchors()
+test1:move(60, 180)
