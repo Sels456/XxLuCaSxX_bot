@@ -135,31 +135,6 @@ isAmigo = function(name)
     end
 end
 
-test = addIcon("test", {item =15857, text = "enemy", hotkey = "F5"}, 
-macro(1, "Enemy", function()
- for _,pla in ipairs(getSpectators(posz())) do
- attacked = g_game.getAttackingCreature()
-  if (not attacked or (attacked and (not attacked:isPlayer() or (pla:getHealthPercent() < attacked:getHealthPercent())))) and pla:isPlayer() and pla:getEmblem() ~= 1 then 
-   g_game.attack(pla)
-  end
- end
-end) )
-
-test:breakAnchors()
-test:move(220, 100)
-local idz = {9058, 9058, 9058, 9058, 9058, 14848, 14848} -- adicionar ID dos itens
-macro(100, "Coletar itens do chão", function()
-local z = posz()
-for _, tile in ipairs(g_map.getTiles(z)) do
-    if z ~= posz() then return end
-        if getDistanceBetween(pos(), tile:getPosition()) <= 10 then -- distância que quer coletar
-            if table.find(idz, tile:getTopLookThing():getId()) then
-                g_game.move(tile:getTopLookThing(), {x = 65535, y=SlotBack, z=0}, tile:getTopLookThing():getCount())
-            end
-        end
-    end
-end)
-UI.Separator();
 roto = macro(1, "Enemy", function()
 for _,pla in ipairs(getSpectators(posz())) do
 attacked = g_game.getAttackingCreature()
