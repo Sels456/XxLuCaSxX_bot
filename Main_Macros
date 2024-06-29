@@ -203,15 +203,13 @@ macro(800, function()
   end
 end, SpellsTab)
 
-local castBelowHp = 80
-local deactiveBelowMana = 92
-mk = macro(100, ".::Defense Kai::.",  function()
-  if (hppercent() <= castBelowHp and manapercent() >= deactiveBelowMana and not hasManaShield()) then
-    say('mystic defense')
-  end
-  if (manapercent() <= deactiveBelowMana and  hppercent() >= castBelowHp and hasManaShield()) then
-      say('mystic kai')
-  end
+mk = macro(50, ".::Defense Kai::.", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 90 or manapercent() < 10) then
+        say("MYSTIC KAI")
+    else
+      end
 end)
 
 test1 = addIcon("2", {item =13504, text = "Kai", hotkey = ""}, mk)
