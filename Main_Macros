@@ -66,7 +66,7 @@ addTextEdit("Combo5Text", storage.Combo5Text or "6", function(widget, text) stor
 end)
 test1 = addIcon("2", {item =13351, text = "Combo", hotkey = ""}, cpvp)
 test1:breakAnchors()
-test1:move(75, 75)
+test1:move(60, 60)
 
 local combo
 macro(100, "Hibrido", function()
@@ -142,7 +142,7 @@ end
 end) 
 test1 = addIcon("3", {item =111, text = "Enemy", hotkey = "F11"}, roto)
 test1:breakAnchors()
-test1:move(100, 75)
+test1:move(110, 60)
 
 
 Panels.AttackLeaderTarget(batTab)  UI.Separator()
@@ -376,7 +376,7 @@ Bm = macro(1, "Bug Map", bugMapMobile.logic);
 
 test1 = addIcon("6", {item =1112, text = "Bug Map", hotkey = ""}, Bm)
 test1:breakAnchors()
-test1:move(200, 350)
+test1:move(60, 120)
 
 
 ds = macro(100, "Hold Target", nil, function()
@@ -532,7 +532,7 @@ end
 end)
 test1 = addIcon("9", {item =1718, text = "M.D", hotkey = ""}, md)
 test1:breakAnchors()
-test1:move(200, 400)
+test1:move(180, 60)
 
 --[[Esconder Magias Laranjas da tela]]--
 TH = macro(100, "esconder msg laranja", function() end)
