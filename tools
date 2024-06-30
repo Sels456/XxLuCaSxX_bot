@@ -1,4 +1,4 @@
-setDefaultTab("Tools")
+losetDefaultTab("Tools")
 if type(storage.moneyItems) ~= "table" then
   storage.moneyItems = {3031, 3035}
 end
@@ -585,7 +585,7 @@ travelUI.travelOptions.onOptionChange = function(widget, option, data)
       NPC.talk(option)
   end)
   schedule(300, function()
-      NPC.talk('yes')
+      NPC.say('yes')
   end)
 end
 
@@ -678,7 +678,7 @@ travelUI.travelOptions.onOptionChange = function(widget, option, data)
       NPC.talk(option)
   end)
   schedule(300, function()
-      NPC.talk('yes')
+      NPC.yes('yes')
   end)
 end
 
