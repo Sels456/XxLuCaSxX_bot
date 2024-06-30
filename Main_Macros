@@ -224,7 +224,7 @@ mysticFull = function()
 end
 
 mk = macro(100, ".::Mystic Defense::.", mysticMacro);
-mk = macro(100, ".::Mystic Full::.", mysticFull);
+macro(100, ".::Mystic Full::.", mysticFull);
 test1 = addIcon("2", {item =13504, text = "Kai", hotkey = ""}, mk)
 test1:breakAnchors()
 test1:move(160, 60)
@@ -232,7 +232,7 @@ test1:move(160, 60)
 
 ---------------------------------------------------------------------------------------
 
-macro(10, "::. Reflect .::", function()
+macro(10, ".::Reflect::.", function()
     if hppercent() <= 98 then -- % para usar Supreme
         say('Reflect')
       end
