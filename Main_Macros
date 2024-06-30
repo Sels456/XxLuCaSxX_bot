@@ -244,7 +244,7 @@ macro(10, "::. Kai PVP .::", function()
 ---------------------------------------------------------------------------------------
 
 macro(10, ".::Reflect::.", function()
-    if hppercent() <= 98 then -- % para usar Supreme
+    if hppercent() <= 95 then -- % para usar Supreme
         say('Reflect')
       end
  end)
