@@ -678,7 +678,7 @@ travelUI.travelOptions.onOptionChange = function(widget, option, data)
       NPC.talk(option)
   end)
   schedule(300, function()
-      NPC.yes('yes')
+      NPC.say('yes')
   end)
 end
 
