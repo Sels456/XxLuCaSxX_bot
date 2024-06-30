@@ -498,115 +498,237 @@ macro(800, function()
   end
 end, SpellsTab)
 
--- adicione as cidades aqui
-local cities = {
-  'wars city',
-  'gelandia',
-  'eld florest',
-  'morgun',
-  'zenet city',
-  'nair city',
-  'egipse city',
-  'narutz city',
-  'hashirama city',
-  'cantasia',
-  'gouble city',
-}
--- adicione o nome do npc
-local npcName = 'Travel Wars';
+local name = UI.Label("-- [[Viajar]] --")
 
-
--- não edita nada abaixo disso
-travelUI = setupUI([[
-UIWindow
-  !text: tr('Ciudad')
-  color: #99d6ff
-  font: sans-bold-16px
-  size: 100 100
-  background-color: black
-  opacity: 0.85
-  anchors.left: parent.left
-  anchors.top: parent.top
-  margin-left: 600
-  margin-top: 150
-
-  ComboBox
-    id: travelOptions
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: parent.top
-    text-align: center
-    opacity: 1.0
-    color: yellow
-    font: sans-bold-16px
-    margin-top: 25
-
-    @onSetup: |
-      self:addOption("None")
-
-  Button
-    id: closeButton
-    text: X
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    color: #99d6ff
-    size: 15 15
-    margin-bottom: 10
-    margin-right: 10
-
-
-    
-]], g_ui.getRootWidget());
-travelUI:hide();
-
-for _, city in ipairs(cities) do
-  travelUI.travelOptions:addOption(city)
-end
-
-NPC.talk = function(text)
-  if g_game.getClientVersion() >= 810 then
-      g_game.talkChannel(11, 0, text)
-  else
-      return say(text)
-  end
-end
-
-macro(100, function()
-  local findNpc = getCreatureByName(npcName)
-  if findNpc and getDistanceBetween(pos(), findNpc:getPosition()) <= 2 then
-      travelUI:show();
-  else
-      travelUI:hide();
+macro(800,function()
+  local rainbowDelay = 0
+  -- Lista de colores ajustada para terminar con un naranja muy oscuro u opaco
+  for k, color in ipairs({"#FFFF00", "#FFD700", "#FFB14C", "#FFA500", "#FF8C00", "#FF4500", "#FF4500"}) do
+    schedule(rainbowDelay, function()
+        name:setColor(color)
+    end)
+    rainbowDelay = rainbowDelay + 100 -- tiempo entre cambios de color
   end
 end)
 
-travelUI.travelOptions.onOptionChange = function(widget, option, data)
-  say('hi')
-  schedule(100, function()
-      NPC.talk(option)
-  end)
-  schedule(300, function()
-      NPC.say('yes')
-  end)
+--hecho por MADGENIUS
+
+local cityTravelUI = setupUI([[
+Panel
+  height: 19
+
+  Button
+    id: editPlayerList
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 1
+    height: 18
+    text: Viajar 1
+]], parent)
+
+g_ui.loadUIFromString([[
+CityTravelWindow < MainWindow
+  text: Ciudades
+  size: 150 330
+  
+  Button
+    id: thaisButton
+    text: Thais
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+  
+  Button
+    id: venoreButton
+    text: Venore
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: carlinButton
+    text: Carlin
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: edronButton
+    text: Edron
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: abDendrielButton
+    text: Ab'Dendriel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: yalaharButton
+    text: Yalahar
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: svargrondButton
+    text: Svargrond
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: portHopeButton
+    text: Port Hope
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: libertyBayButton
+    text: Liberty Bay
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: darashiaButton
+    text: Darashia
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: ankrahmunButton
+    text: Ankrahmun
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  HorizontalSeparator
+    id: separator
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+    margin-top: 6
+    margin-bottom: 6
+
+  Button
+    id: closeButton
+    text: Close
+    font: cipsoftFont
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    size: 45 21
+]])
+
+local panelName = "cityTravel"
+if not storage[panelName] then
+  storage[panelName] = {
+    enabled = false,
+  }
 end
 
-UI.Separator()
--- adicione as cidades aqui
-local cities = {
-  'temple of haley',
-  'decray city',
-  'colinas',
-  'arena quest',
-  'free zone',
-  'amun ra city',
-  'sagrade island',
-  'ferock',
-  'zanbur',
-  'ala in hell',
-  'magnus linear',
-  'sagitaria',
-}
--- adicione o nome do npc
-local npcName = 'Travel Wars';
+local config = storage[panelName]
+
+rootWidget = g_ui.getRootWidget()
+if rootWidget then
+  local cityTravelWindow = UI.createWindow('CityTravelWindow', rootWidget)
+  cityTravelWindow:hide()
+
+  cityTravelUI.editPlayerList.onClick = function(widget)
+    cityTravelWindow:show()
+    cityTravelWindow:raise()
+    cityTravelWindow:focus()
+  end
+
+  cityTravelWindow.closeButton.onClick = function(widget)
+    cityTravelWindow:hide()
+  end
+  
+  local cityButtons = {
+    {id = 'wars cityButton', city = 'Wars City'},
+    {id= 'gelandiaButton', city = 'Gelandia'},
+    {id = 'eld florestButton', city = 'Eld Florest'},
+    {id = 'morgunButton', city = 'Morgun'},
+    {id = 'zenet cityButton', city = 'Zenet City'},
+    {id = 'nair cityButton', city = 'Nair City'},
+    {id = 'egipse cityButton', city = 'Egipse City'},
+    {id = 'narutz cityButton', city = 'Narutz City'},
+   {id = 'hashirama cityButton', city = 'Hashirama City'},
+   {id = 'cantasiaButton', city = 'Cantasia'},
+   {id = 'gouble cityButton', city = 'Gouble City'},
+  }
+
+  for _, buttonInfo in ipairs(cityButtons) do
+    local button = cityTravelWindow:recursiveGetChildById(buttonInfo.id)
+    button.onClick = function()
+      NPC.say("hi")
+      schedule(2000, function() NPC.say(buttonInfo.city) end)
+      schedule(3000, function() NPC.say("yes") end)
+      schedule(4000, function() NPC.say("yes") end)
+    end
+  end
+end
 
 
 
