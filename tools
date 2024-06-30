@@ -554,3 +554,237 @@ macro(20, "Recolectar del suelo", "", function()
     end
   end
 end)
+
+setDefaultTab("Tools")
+
+local name = UI.Label("-- [[Travel]] --")
+
+macro(800,function()
+  local rainbowDelay = 0
+  -- Lista de colores ajustada para terminar con un naranja muy oscuro u opaco
+  for k, color in ipairs({"#FFFF00", "#FFD700", "#FFB14C", "#FFA500", "#FF8C00", "#FF4500", "#FF4500"}) do
+    schedule(rainbowDelay, function()
+        name:setColor(color)
+    end)
+    rainbowDelay = rainbowDelay + 100 -- tiempo entre cambios de color
+  end
+end)
+
+--hecho por MADGENIUS
+
+local cityTravelUI = setupUI([[
+Panel
+  height: 19
+
+  Button
+    id: editPlayerList
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 1
+    height: 18
+    text: 
+]], parent)
+
+g_ui.loadUIFromString([[
+CityTravelWindow < MainWindow
+  text: Ciudades
+  size: 150 330
+  
+  Button
+    id: warscityButton
+    text: War City
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+  
+  Button
+    id: gelandiaButton
+    text: Genlandia
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: eldflorestButton
+    text: Eld Florest
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: morgunButton
+    text: Morgun
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: zenetcityButton
+    text: Zenet
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: naircityButton
+    text: Nair
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: egipsecityButton
+    text: Egipse
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: narutzcityButton
+    text: Narutz
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: hashiramacityButton
+    text: Hasirama
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: cantasiaButton
+    text: Cantasia
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  Button
+    id: goublecityButton
+    text: Gouble
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 3
+    margin-right: 3
+    height: 20
+    font: verdana-11px-rounded
+
+  HorizontalSeparator
+    id: separator
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+    margin-top: 6
+    margin-bottom: 6
+
+  Button
+    id: closeButton
+    text: Close
+    font: cipsoftFont
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    size: 45 21
+]])
+
+local panelName = "cityTravel"
+if not storage[panelName] then
+  storage[panelName] = {
+    enabled = false,
+  }
+end
+
+local config = storage[panelName]
+
+rootWidget = g_ui.getRootWidget()
+if rootWidget then
+  local cityTravelWindow = UI.createWindow('CityTravelWindow', rootWidget)
+  cityTravelWindow:hide()
+
+  cityTravelUI.editPlayerList.onClick = function(widget)
+    cityTravelWindow:show()
+    cityTravelWindow:raise()
+    cityTravelWindow:focus()
+  end
+
+  cityTravelWindow.closeButton.onClick = function(widget)
+    cityTravelWindow:hide()
+  end
+  
+  local cityButtons = {
+    {id = 'warscityButton', city = 'wars city'},
+    {id= 'gelandiaButton', city = 'gelandia'},
+    {id = 'eldflorestButton', city = 'eld florest'},
+    {id = 'morgunButton', city = 'Morgun'},
+    {id = 'zenetcityButton', city = 'zenet city'},
+    {id = 'naircityButton', city = 'nair city'},
+    {id = 'egipsecityButton', city = 'egipse city'},
+    {id = 'narutzcityButton', city = 'narutz city'},
+   {id = 'hashiramacityButton', city = 'hashirama city'},
+   {id = 'cantasiaButton', city = 'cantasia'},
+   {id = 'goublecityButton', city = 'gouble city'},
+  }
+
+  for _, buttonInfo in ipairs(cityButtons) do
+    local button = cityTravelWindow:recursiveGetChildById(buttonInfo.id)
+    button.onClick = function()
+      NPC.say("hi")
+      schedule(2000, function() NPC.say(buttonInfo.city) end)
+      schedule(3000, function() NPC.say("yes") end)
+      schedule(4000, function() NPC.say("yes") end)
+    end
+  end
+end
