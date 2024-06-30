@@ -583,7 +583,7 @@ Panel
     anchors.right: parent.right
     margin-left: 1
     height: 18
-    text: 
+    text: Ciudades 1
 ]], parent)
 
 g_ui.loadUIFromString([[
