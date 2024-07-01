@@ -223,20 +223,20 @@ mysticFull = function()
   delay(500)
 end
 
-mk = macro(100, ".::Defense Kai::.", mysticMacro);
-macro(100, ".::Mystic Full::.", mysticFull);
+mk = macro(1, ".::Defense Kai::.", mysticMacro);
+macro(1, ".::Mystic Full::.", mysticFull);
 test1 = addIcon("2", {item =13504, text = "Kai", hotkey = ""}, mk)
 test1:breakAnchors()
 test1:move(160, 60)
 
-macro(10, "::. Defense PvP .::", function()
-    if hppercent() <= 90 then -- % para usar Supreme
+macro(1, "::. Defense PvP .::", function()
+    if hppercent() <= 70 then -- % para usar Supreme
         say('Mystic Defense')
       end
  end)
 ----------------------------------------------------------------------------------------------------------
-macro(10, "::. Kai PVP .::", function()
-    if hppercent() <= 98 then -- % para usar Supreme
+macro(1, "::. Kai PVP .::", function()
+    if hppercent() <= 80 then -- % para usar Supreme
         say('Mystic Kai')
       end
  end)
