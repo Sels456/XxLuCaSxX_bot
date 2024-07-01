@@ -242,10 +242,9 @@ macro(1, "::. Kai PVP .::", function()
  end)
 
 ---------------------------------------------------------------------------------------
-```lua
 local castBelowHp = 70 -- cambiar este valor al porcentaje de HP deseado
 
-macro(1, "Mystic Defense/kai",  function()
+macro(1, "Super Defense",  function()
   if (hppercent() < castBelowHp and not hasManaShield()) then
     say('Mystic Defense') -- cambiar por utamo vita
   end
@@ -295,8 +294,6 @@ end
 
 
 codPanel.scroll1:setValue(storage[panelName].hpPercent or castBelowHp)
-
-```
 
 scripts de mystic defense e mystic kai
 pero tambien sirve para utamo vita e utamo ina
