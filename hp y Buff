@@ -69,6 +69,12 @@ macro(500, "Sung Regen", function()
   end
 end)
 
+macro(500, "Sung Regen", function()
+  if hppercent() <= 85 then
+   say('terra Regeneration')
+  end
+end)
+
 -- Establece la pestaña por defecto en "spells"
 setDefaultTab("HP")
 
@@ -165,6 +171,10 @@ end)
 
 macro(8000, "Mario", function()
   say('Mario Power Up')
+end)
+
+macro(8000, "Avatar", function()
+  say('terra power up')
 end)
 
 macro(8000, "Sung", function()
