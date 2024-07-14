@@ -636,3 +636,42 @@ end)
 test1 = addIcon("2", {item =13517, text = "Agoni", hotkey = ""}, agg)
 test1:breakAnchors()
 test1:move(60, 180)
+local ui = setupUI([[
+Panel
+  height: 120
+  width: 100
+  anchors.left: parent.left
+  anchors.top: parent.top
+  margin-left: 3
+
+  Label
+    id: label1
+    margin-top: 50
+    font: verdana-11px-rounded
+    anchors.top: parent.top
+    anchors.left: parent.left
+    width: 240     
+]], modules.game_interface.getMapPanel())    
+
+-- Colores estilo arcoíris brillantes en formato hexadecimal
+local cores = {
+  "#FF0000", -- Rojo
+  "#FF7F00", -- Naranja
+  "#FFFF00", -- Amarillo
+  "#00FF00", -- Verde
+  "#0000FF", -- Azul
+  "#4B0082", -- Índigo
+  "#8B00FF", -- Violeta
+  "#FF1493", -- Rosa brillante
+  "#00FFFF", -- Cian
+  "#FFD700"  -- Dorado
+}
+
+macro(150, function()
+  local cor1, cor2, cor3, cor4 = cores[math.random(#cores)], cores[math.random(#cores)], cores[math.random(#cores)], cores[math.random(#cores)]
+  ui.label1:setColoredText({"BOT ", cor1, "EXCLUSIVE ", cor2, "WODBOWARS ", cor3, "XxLuCasxX", cor4})
+end)
+
+-- Mueve el panel de UI a la posición deseada
+ui:breakAnchors() -- Rompe las restricciones de posición actuales del panel
+ui:move(210,10) -- Mueve el panel a la posición
