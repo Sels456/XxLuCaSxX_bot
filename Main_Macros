@@ -184,6 +184,21 @@ macro(1000, "Auto Bless", function()
       say("!bless")
     end
 end)
+
+local itemId = 13052
+ib = macro(1000, "Item Bless", function()
+    if bless <= 0 then
+        local item = findItem(itemId)
+        if item then
+        useWith(item, player)
+        end
+    end
+end)
+
+test1 = addIcon("11", {item =13052, text = "Combo", hotkey = ""}, ib)
+test1:breakAnchors()
+test1:move(110, 220)
+
 macro(1000, "Auto !bol", function()
   if not getFinger() then
       say('!bol')
