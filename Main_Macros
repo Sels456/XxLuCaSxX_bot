@@ -665,9 +665,9 @@ local cores = {
 
 macro(150, function()
   local cor1, cor2, cor3, cor4 = cores[math.random(#cores)], cores[math.random(#cores)], cores[math.random(#cores)], cores[math.random(#cores)]
-  ui.label1:setColoredText({"BOT ", cor1, "EXCLUSIVE ", cor2, "XxLuCaSxX", cor3, "...", cor4})
+  ui.label1:setColoredText({"BOT ", cor1, "EXCLUSIVE ", cor2, "NDBO-WAR ", cor3, "BY:XxLuCaSxX", cor4})
 end)
 
 -- Mueve el panel de UI a la posición deseada
 ui:breakAnchors() -- Rompe las restricciones de posición actuales del panel
-ui:move(300,10) -- Mueve el panel a la posición
+ui:move(260 ,10) -- Mueve el panel a la posición
