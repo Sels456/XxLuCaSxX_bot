@@ -111,8 +111,6 @@ addIcon("BlessIcon", {item={id=13052, count=1}, text="Bless"}, macro(1000, funct
     end
     if g_game.getClientVersion() > 1000 and player:getBlessings() == 0 then
         useWith(BlessConfig.itemId)
-test1:breakAnchors()
-test1:move(300, 210)
     end
 end))
 
