@@ -1,4 +1,3 @@
-
 setDefaultTab("HP")
 
 -- Crea una etiqueta de UI con el texto 
@@ -33,46 +32,113 @@ macro(500, "Big Regeneration", function()
   end
 end)
 
-macro(500, "Hibrido Regen", function()
-  if hppercent() <= 85 then
-   say('Hibrido Regeneration')
-  end
+macro(1, "Hibrido Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("hibridi regeneration")
+        end
+    end
 end)
 
-macro(500, "Fire Regen", function()
-  if hppercent() <= 85 then
-   say('Fire Regeneration')
-  end
+macro(1, "Fire Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("fire regeneration")
+        end
+    end
 end)
 
-macro(500, "Magnus Regen", function()
-  if hppercent() <= 85 then
-   say('Magnus Regeneration')
-  end
+macro(1, "Magnus Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("magnus regeneration")
+        end
+    end
 end)
 
-macro(500, "Mario Regen", function()
-  if hppercent() <= 85 then
-   say('Mario Regeneration')
-  end
+macro(1, "Mario Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("Mario regeneration")
+        end
+    end
 end)
 
-macro(500, "Hisoka Regen", function()
-  if hppercent() <= 85 then
-   say('Hisoka Regeneration')
-  end
+macro(1, "Hisokq Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("hisoka regeneration")
+        end
+    end
 end)
 
-macro(500, "Sung Regen", function()
-  if hppercent() <= 85 then
-   say('Sung Regeneration')
-  end
+macro(1, "Sung Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("sung regeneration")
+        end
+    end
 end)
 
-macro(500, "Ang Regen", function()
-  if hppercent() <= 85 then
-   say('terra Regeneration')
-  end
+macro(1, "Ang Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("terra regeneration")
+        end
+    end
+end)
+
+macro(1, "Pitou Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("pitou regeneration")
+        end
+    end
+end)
+
+
+macro(1, "CR-7 Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("ronaldo regeneration")
+        end
+    end
 end)
 
 -- Establece la pestaña por defecto en "spells"
@@ -181,3 +247,6 @@ macro(8000, "Sung", function()
   say('Sung Power Up')
 end)
 
+macro(8000, "CR-7", function()
+  say('ronaldo Power Up')
+end)
