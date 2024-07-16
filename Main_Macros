@@ -121,8 +121,8 @@ end))
 
 COMBO = {
     --example:     {text = 'big explosion', cooldown = 0.2, targetDistance = 3, targetLife = 100, playerLvl = 50},
-    {text = 'agonimos', cooldown = 2, targetDistance = 3, targetLife = 100, playerLvl = 100},
-    {text = 'divine missile', cooldown = 1, targetDistance = 3, targetLife = 100, playerLvl = 100},
+    {text = 'agonimos', cooldown = 0.5, targetDistance = 3, targetLife = 100, playerLvl = 100},
+    {text = 'divine missile', cooldown = 0.2, targetDistance = 3, targetLife = 100, playerLvl = 100},
     {text = 'combo impact', cooldown = 16, targetDistance = 3, targetLife = 90, playerLvl = 100},
 }
 
