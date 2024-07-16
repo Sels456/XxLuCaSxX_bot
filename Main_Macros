@@ -103,8 +103,15 @@ say('terra attack')
 end
 end)
 
+local BlessConfig = {
+    useAtLogin = true,
+    itemId = 13052
+}
+
 BlessConfig.hasUsed = false
 addIcon("BlessIcon", {item={id=13052, count=1}, text="Bless"}, macro(1000, function(m)
+test1:breakAnchors()
+test1:move(300, 210)
     if BlessConfig.hasUsed and not BlessConfig.hasUsed then
         useWith(BlessConfig.useAtLogin)
         BlessConfig.hasUsed = true
