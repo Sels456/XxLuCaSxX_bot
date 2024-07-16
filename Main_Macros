@@ -39,7 +39,7 @@ macro(800, function()
   end
 end, SpellsTab)
 
-cpvp = macro(200, "Combo",  function()
+cmb= macro(200, "Combo",  function()
 if g_game.isAttacking() then
 say(storage.ComboText)
 say(storage.Combo1Text)
@@ -63,7 +63,7 @@ addTextEdit("Combo4Text", storage.Combo4Text or "5", function(widget, text) stor
 end)
 addTextEdit("Combo5Text", storage.Combo5Text or "6", function(widget, text) storage.Combo5Text = text
 end)
-test1 = addIcon("2", {item =13351, text = "Combo", hotkey = ""}, cpvp)
+test1 = addIcon("2", {item =13351, text = "Combo", hotkey = ""}, cmb)
 test1:breakAnchors()
 test1:move(60, 60)
 
@@ -110,8 +110,6 @@ local BlessConfig = {
 
 BlessConfig.hasUsed = false
 addIcon("BlessIcon", {item={id=13052, count=1}, text="Bless"}, macro(1000, function(m)
-test1:breakAnchors()
-test1:move(300, 210)
     if BlessConfig.hasUsed and not BlessConfig.hasUsed then
         useWith(BlessConfig.useAtLogin)
         BlessConfig.hasUsed = true
@@ -132,7 +130,7 @@ for index, value in ipairs(COMBO) do
     value.text = value.text:lower():trim();
 end
 
-macro(100, "Combo", function()
+cpvp = macro(1, "Combo Pvp", function()
     local target, playerPos = g_game.getAttackingCreature(), pos();
     if not g_game.isAttacking() then return; end
     if target then
@@ -149,6 +147,10 @@ macro(100, "Combo", function()
         end
     end
 end);
+
+test1 = addIcon("15", {item =13351, text = "PvP", hotkey = ""}, cpvp)
+test1:breakAnchors()
+test1:move(120, 180)
 
 -- Crea una etiqueta de UI con el texto 
 local name = UI.Label("-- [[PvP]] --")
