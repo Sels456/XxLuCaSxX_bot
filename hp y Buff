@@ -39,7 +39,7 @@ macro(1, "Hibrido Regen", function()
         say("MYSTIC KAI")
     else
         if hppercent() <= 90 then
-            say("hibridi regeneration")
+            say("hibrido regeneration")
         end
     end
 end)
@@ -137,6 +137,19 @@ macro(1, "CR-7 Regen", function()
     else
         if hppercent() <= 90 then
             say("ronaldo regeneration")
+        end
+    end
+end)
+
+
+macro(1, "Shaka Regen", function()
+    if hppercent() <= 78 and manapercent() > 10 and not hasManaShield() then
+        say("MYSTIC DEFENSE")
+    elseif hasManaShield() and (hppercent() >= 20 or manapercent() < 90) then
+        say("MYSTIC KAI")
+    else
+        if hppercent() <= 90 then
+            say("shaka regeneration")
         end
     end
 end)
@@ -249,4 +262,8 @@ end)
 
 macro(8000, "CR-7", function()
   say('ronaldo Power Up')
+end)
+
+macro(8000, "Shaka", function()
+  say('shaka Power Up')
 end)
